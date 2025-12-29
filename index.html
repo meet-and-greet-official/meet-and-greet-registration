@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meet & Greet Registration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 20px;
+}
+
+.container {
+  max-width: 650px;
+  background: #ffffff;
+  margin: auto;
+  padding: 25px;
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  color: #c40000;
+}
+
+.note {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 18px 0;
+}
+
+.vip-section {
+  margin: 25px 0;
+}
+
+.vip-card {
+  border: 2px solid #ccc;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vip-card input {
+  display: none;
+}
+
+.vip-card.selected {
+  border-color: #000;
+  background: #f9f9f9;
+}
+
+.checkmark {
+  font-size: 20px;
+  display: none;
+}
+
+.vip-card.selected .checkmark {
+  display: block;
+}
+
+button {
+  background: #000;
+  color: #fff;
+  padding: 14px;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.footer-note {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>MEET & GREET FORM</h1>
+
+<p class="note">
+NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
+</p>
+
+<form>
+
+<label>First Name</label>
+<input type="text" required>
+
+<label>Last Name</label>
+<input type="text" required>
+
+<label>Email Address</label>
+<input type="email" required>
+
+<label>Reason for Meeting</label>
+<textarea rows="4" required></textarea>
+
+<div class="vip-section">
+<label>Select Your VIP Ticket</label>
+
+<div class="vip-card" onclick="selectVIP(this)">
+  <span>VIP Diamond Ticket — $2000</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="vip" value="VIP Diamond Ticket">
+</div>
+
+<div class="vip-card" onclick="selectVIP(this)">
+  <span>VIP Platinum Ticket — $1500</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="vip" value="VIP Platinum Ticket">
+</div>
+
+<div class="vip-card" onclick="selectVIP(this)">
+  <span>VIP Gold Ticket — $1000</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="vip" value="VIP Gold Ticket">
+</div>
+
+</div>
+
+<button type="submit">Submit Registration</button>
+
+</form>
+
+<p class="footer-note">
+Your information is handled securely and used only for meet & greet arrangements.
+</p>
+
+</div>
+
+<script>
+function selectVIP(card) {
+  const cards = document.querySelectorAll('.vip-card');
+  cards.forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  card.querySelector('input').checked = true;
+}
+</script>
+
+</body>
+</html>
