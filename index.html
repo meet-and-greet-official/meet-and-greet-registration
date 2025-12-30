@@ -114,11 +114,10 @@ button:hover {
   margin-top: 20px;
 }
 
-/* Google Translate */
-#google_translate_element {
-  text-align: right;
-  margin-bottom: 10px;
-}
+/* Google Translate Restrict Languages */
+.goog-te-menu-frame.skiptranslate,
+.goog-te-menu2-item { display: none !important; }
+.goog-te-menu2-item span.text { display: block !important; }
 
 /* Thank You Message */
 #thankyou-message {
@@ -145,9 +144,7 @@ button:hover {
   display: block;
   margin-bottom: 10px;
 }
-#thankyou-message p {
-  line-height: 1.6;
-}
+#thankyou-message p { line-height: 1.6; }
 @media screen and (max-width: 500px) {
   .container { padding: 15px; }
   button { font-size: 14px; padding: 12px; }
@@ -249,12 +246,10 @@ button:hover {
 
 </form>
 
-<!-- Note at bottom -->
 <h2 class="note">
 NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
 </h2>
 
-<!-- Thank You Message -->
 <div id="thankyou-message">
 <h2>Thank You for Registering!</h2>
 <p>We’ve received your Meet & Greet registration. Please proceed to make your payment using the method you selected. Your information is securely stored and will only be used for event arrangements.<br><br>
@@ -334,9 +329,13 @@ function setAutoLanguage() {
     if (iframe) {
         const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         const langOptions = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
+
         langOptions.forEach(option => {
-            if(option.innerText.toLowerCase() === langCode.toLowerCase()) {
-                option.click();
+            const text = option.innerText.toLowerCase();
+            if(!Object.values(allowedLanguages).includes(text)) {
+                option.parentElement.style.display = "none"; // hide non-allowed languages
+            } else if(text === langCode.toLowerCase()) {
+                option.click(); // auto-select user language
             }
         });
     }
