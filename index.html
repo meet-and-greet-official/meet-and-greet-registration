@@ -8,8 +8,8 @@
   body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
   h1 { color: #000; text-decoration: underline; text-align: center; }
   form { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .row .field { flex: 1; min-width: 150px; display: flex; flex-direction: column; margin-bottom: 15px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+  .row .field { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
   label { margin-bottom: 5px; font-weight: bold; }
   input, select, textarea { padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
   .vip-options, .payment-options { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
@@ -18,6 +18,10 @@
   .submit-btn { padding: 12px; width: 100%; border: none; background: #000; color: #fff; font-size: 16px; border-radius: 5px; cursor: pointer; }
   .note { font-size: 14px; margin-top: 15px; color: #555; }
   .thank-you { display:none; text-align: center; margin-top: 20px; font-size: 16px; font-weight: bold; }
+  @media(max-width: 600px){
+    .row { flex-direction: column; }
+    .vip-options, .payment-options { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
@@ -118,7 +122,7 @@
     });
   });
 
-  // Form submission (using Formspree, custom thank you message)
+  // Form submission (using Formspree)
   document.getElementById('registrationForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const endpoint = 'https://formspree.io/f/xwvkywyw';
@@ -130,212 +134,4 @@
       headers: { 'Accept': 'application/json' }
     }).then(response => {
       document.getElementById('registrationForm').style.display = 'none';
-      document.getElementById('thankYouMessage').style.display = 'block';
-    }).catch(error => {
-      alert('Oops! There was a problem submitting your form.');
-    });
-  });
-
-  // -------------------------------
-  // Language translation feature
-  // -------------------------------
-  const translations = {
-    en: {
-      header: "Meet & Greet Registration",
-      firstName: "First Name",
-      lastName: "Last Name",
-      email: "Email",
-      phone: "Phone Number",
-      country: "Country",
-      state: "State/Region",
-      reason: "Reason for Meeting",
-      vip: "Select VIP Tickets",
-      payment: "Select Payment Method",
-      date: "Preferred Meet & Greet Date (optional)",
-      note: "Your information is handled securely and used only for meet & greet arrangements.",
-      submit: "Submit Registration",
-      thankYou: "Thank you! Your details have been submitted. Please proceed to make your payment. See you at the event!"
-    },
-    de: {
-      header: "Meet & Greet Anmeldung",
-      firstName: "Vorname",
-      lastName: "Nachname",
-      email: "E-Mail",
-      phone: "Telefonnummer",
-      country: "Land",
-      state: "Bundesland/Region",
-      reason: "Grund für das Treffen",
-      vip: "Wählen Sie VIP-Tickets",
-      payment: "Zahlungsmethode auswählen",
-      date: "Bevorzugtes Meet & Greet Datum (optional)",
-      note: "Ihre Informationen werden sicher behandelt und nur für Meet & Greet-Vereinbarungen verwendet.",
-      submit: "Registrierung absenden",
-      thankYou: "Danke! Ihre Angaben wurden übermittelt. Bitte fahren Sie mit der Zahlung fort. Wir sehen uns bei der Veranstaltung!"
-    },
-    pl: {
-      header: "Rejestracja Meet & Greet",
-      firstName: "Imię",
-      lastName: "Nazwisko",
-      email: "Email",
-      phone: "Numer telefonu",
-      country: "Kraj",
-      state: "Województwo/Region",
-      reason: "Powód spotkania",
-      vip: "Wybierz bilety VIP",
-      payment: "Wybierz metodę płatności",
-      date: "Preferowana data Meet & Greet (opcjonalnie)",
-      note: "Twoje dane są przetwarzane bezpiecznie i wykorzystywane wyłącznie do ustaleń Meet & Greet.",
-      submit: "Wyślij rejestrację",
-      thankYou: "Dziękujemy! Twoje dane zostały przesłane. Prosimy o dokonanie płatności. Do zobaczenia na wydarzeniu!"
-    },
-    zh: {
-      header: "见面会注册",
-      firstName: "名",
-      lastName: "姓",
-      email: "电子邮件",
-      phone: "电话号码",
-      country: "国家",
-      state: "州/地区",
-      reason: "见面原因",
-      vip: "选择VIP票",
-      payment: "选择付款方式",
-      date: "首选见面日期（可选）",
-      note: "您的信息将安全处理，仅用于见面安排。",
-      submit: "提交注册",
-      thankYou: "谢谢！您的信息已提交。请继续付款。活动上见！"
-    },
-    ko: {
-      header: "미팅 등록",
-      firstName: "이름",
-      lastName: "성",
-      email: "이메일",
-      phone: "전화번호",
-      country: "국가",
-      state: "주/지역",
-      reason: "미팅 이유",
-      vip: "VIP 티켓 선택",
-      payment: "결제 수단 선택",
-      date: "선호하는 미팅 날짜(선택 사항)",
-      note: "귀하의 정보는 안전하게 처리되며 Meet & Greet 일정에만 사용됩니다.",
-      submit: "등록 제출",
-      thankYou: "감사합니다! 귀하의 정보가 제출되었습니다. 결제를 진행해주세요. 이벤트에서 뵙겠습니다!"
-    },
-    ja: {
-      header: "ミート＆グリート登録",
-      firstName: "名",
-      lastName: "姓",
-      email: "メール",
-      phone: "電話番号",
-      country: "国",
-      state: "州/地域",
-      reason: "ミーティングの理由",
-      vip: "VIPチケットを選択",
-      payment: "支払い方法を選択",
-      date: "希望のミート＆グリート日（任意）",
-      note: "あなたの情報は安全に扱われ、ミート＆グリートの手配にのみ使用されます。",
-      submit: "登録送信",
-      thankYou: "ありがとうございます！情報は送信されました。支払いを進めてください。イベントでお会いしましょう！"
-    },
-    it: {
-      header: "Registrazione Meet & Greet",
-      firstName: "Nome",
-      lastName: "Cognome",
-      email: "Email",
-      phone: "Numero di telefono",
-      country: "Paese",
-      state: "Stato/Regione",
-      reason: "Motivo dell'incontro",
-      vip: "Seleziona i biglietti VIP",
-      payment: "Seleziona il metodo di pagamento",
-      date: "Data preferita Meet & Greet (opzionale)",
-      note: "Le tue informazioni sono gestite in modo sicuro e utilizzate solo per gli accordi del Meet & Greet.",
-      submit: "Invia registrazione",
-      thankYou: "Grazie! I tuoi dati sono stati inviati. Procedi al pagamento. Ci vediamo all'evento!"
-    },
-    es: {
-      header: "Registro Meet & Greet",
-      firstName: "Nombre",
-      lastName: "Apellido",
-      email: "Correo electrónico",
-      phone: "Número de teléfono",
-      country: "País",
-      state: "Estado/Región",
-      reason: "Razón para asistir",
-      vip: "Seleccione boletos VIP",
-      payment: "Seleccione método de pago",
-      date: "Fecha preferida Meet & Greet (opcional)",
-      note: "Su información se maneja de manera segura y se utiliza solo para los arreglos de Meet & Greet.",
-      submit: "Enviar registro",
-      thankYou: "¡Gracias! Sus datos han sido enviados. Por favor, proceda a realizar su pago. ¡Nos vemos en el evento!"
-    },
-    nl: {
-      header: "Meet & Greet Registratie",
-      firstName: "Voornaam",
-      lastName: "Achternaam",
-      email: "E-mail",
-      phone: "Telefoonnummer",
-      country: "Land",
-      state: "Staat/Regio",
-      reason: "Reden voor het ontmoeten",
-      vip: "Selecteer VIP-tickets",
-      payment: "Selecteer betaalmethode",
-      date: "Voorkeursdatum Meet & Greet (optioneel)",
-      note: "Uw informatie wordt veilig behandeld en alleen gebruikt voor Meet & Greet-regelingen.",
-      submit: "Registratie verzenden",
-      thankYou: "Dank u! Uw gegevens zijn verzonden. Ga verder met betalen. Tot ziens bij het evenement!"
-    },
-    fr: {
-      header: "Inscription Meet & Greet",
-      firstName: "Prénom",
-      lastName: "Nom",
-      email: "Email",
-      phone: "Numéro de téléphone",
-      country: "Pays",
-      state: "État/Région",
-      reason: "Raison de la rencontre",
-      vip: "Sélectionnez les billets VIP",
-      payment: "Sélectionnez le mode de paiement",
-      date: "Date préférée Meet & Greet (facultatif)",
-      note: "Vos informations sont traitées en toute sécurité et utilisées uniquement pour les arrangements Meet & Greet.",
-      submit: "Envoyer l'inscription",
-      thankYou: "Merci ! Vos informations ont été envoyées. Veuillez procéder au paiement. À bientôt à l'événement !"
-    },
-    ro: {
-      header: "Înregistrare Meet & Greet",
-      firstName: "Prenume",
-      lastName: "Nume",
-      email: "Email",
-      phone: "Număr de telefon",
-      country: "Țară",
-      state: "Stat/Regiune",
-      reason: "Motivul întâlnirii",
-      vip: "Selectați biletele VIP",
-      payment: "Selectați metoda de plată",
-      date: "Data preferată Meet & Greet (opțional)",
-      note: "Informațiile dvs. sunt gestionate în siguranță și utilizate doar pentru aranjamentele Meet & Greet.",
-      submit: "Trimite înregistrarea",
-      thankYou: "Mulțumim! Detaliile dvs. au fost trimise. Vă rugăm să efectuați plata. Ne vedem la eveniment!"
-    }
-  };
-
-  const userLang = navigator.language.slice(0,2); // get first two letters
-  const lang = translations[userLang] ? userLang : 'en';
-  document.getElementById('header').textContent = translations[lang].header;
-  document.getElementById('labelFirstName').textContent = translations[lang].firstName;
-  document.getElementById('labelLastName').textContent = translations[lang].lastName;
-  document.getElementById('labelEmail').textContent = translations[lang].email;
-  document.getElementById('labelPhone').textContent = translations[lang].phone;
-  document.getElementById('labelCountry').textContent = translations[lang].country;
-  document.getElementById('labelState').textContent = translations[lang].state;
-  document.getElementById('labelReason').textContent = translations[lang].reason;
-  document.getElementById('labelVIP').textContent = translations[lang].vip;
-  document.getElementById('labelPayment').textContent = translations[lang].payment;
-  document.getElementById('labelDate').textContent = translations[lang].date;
-  document.getElementById('noteText').textContent = translations[lang].note;
-  document.getElementById('submitBtn').textContent = translations[lang].submit;
-  document.getElementById('thankYouMessage').textContent = translations[lang].thankYou;
-
-</script>
-
-</body>
-</html>
+      document.getElementBy
