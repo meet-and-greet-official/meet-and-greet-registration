@@ -4,14 +4,12 @@
 <meta charset="UTF-8">
 <title>Meet & Greet Registration</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body {
   font-family: Arial, sans-serif;
   background: #f2f2f2;
   padding: 20px;
 }
-
 .container {
   max-width: 650px;
   background: #ffffff;
@@ -19,32 +17,28 @@ body {
   padding: 25px;
   border-radius: 8px;
 }
-
 h1 {
   text-align: center;
   color: #c40000;
 }
-
 .note {
   text-align: center;
   font-size: 14px;
   margin-bottom: 25px;
 }
-
 label {
   font-weight: bold;
 }
-
 input, textarea {
   width: 100%;
   padding: 10px;
   margin: 8px 0 18px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
-
 .vip-section {
   margin: 25px 0;
 }
-
 .vip-card {
   border: 2px solid #ccc;
   padding: 15px;
@@ -55,25 +49,21 @@ input, textarea {
   justify-content: space-between;
   align-items: center;
 }
-
 .vip-card input {
   display: none;
 }
-
 .vip-card.selected {
   border-color: #000;
   background: #f9f9f9;
 }
-
 .checkmark {
   font-size: 20px;
   display: none;
+  color: green;
 }
-
 .vip-card.selected .checkmark {
   display: block;
 }
-
 button {
   background: #000;
   color: #fff;
@@ -82,8 +72,8 @@ button {
   border: none;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 4px;
 }
-
 .footer-note {
   font-size: 13px;
   text-align: center;
@@ -91,7 +81,6 @@ button {
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -102,19 +91,19 @@ button {
 NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
 </p>
 
-<form>
+<form action="https://formspree.io/f/xwvkywyw" method="POST">
 
 <label>First Name</label>
-<input type="text" required>
+<input type="text" name="first_name" required>
 
 <label>Last Name</label>
-<input type="text" required>
+<input type="text" name="last_name" required>
 
 <label>Email Address</label>
-<input type="email" required>
+<input type="email" name="email" required>
 
 <label>Reason for Meeting</label>
-<textarea rows="4" required></textarea>
+<textarea name="reason" rows="4" required></textarea>
 
 <div class="vip-section">
 <label>Select Your VIP Ticket</label>
@@ -122,19 +111,19 @@ NOTE: You will be required to verify your identity at the location for security 
 <div class="vip-card" onclick="selectVIP(this)">
   <span>VIP Diamond Ticket — $2000</span>
   <span class="checkmark">✔</span>
-  <input type="radio" name="vip" value="VIP Diamond Ticket">
+  <input type="radio" name="vip_ticket" value="VIP Diamond Ticket" required>
 </div>
 
 <div class="vip-card" onclick="selectVIP(this)">
   <span>VIP Platinum Ticket — $1500</span>
   <span class="checkmark">✔</span>
-  <input type="radio" name="vip" value="VIP Platinum Ticket">
+  <input type="radio" name="vip_ticket" value="VIP Platinum Ticket">
 </div>
 
 <div class="vip-card" onclick="selectVIP(this)">
   <span>VIP Gold Ticket — $1000</span>
   <span class="checkmark">✔</span>
-  <input type="radio" name="vip" value="VIP Gold Ticket">
+  <input type="radio" name="vip_ticket" value="VIP Gold Ticket">
 </div>
 
 </div>
