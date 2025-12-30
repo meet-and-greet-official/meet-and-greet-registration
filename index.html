@@ -12,7 +12,7 @@ body {
   margin: 0;
 }
 .container {
-  max-width: 650px;
+  max-width: 700px;
   background: #ffffff;
   margin: auto;
   padding: 25px;
@@ -21,12 +21,12 @@ body {
 }
 h1 {
   text-align: center;
-  color: #c40000;
+  color: #000000; /* black title */
   margin-bottom: 15px;
 }
 .note {
   text-align: center;
-  font-size: 20px; /* bigger for emphasis */
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 25px;
   color: #c40000;
@@ -55,7 +55,7 @@ input, textarea {
   justify-content: space-between;
   align-items: center;
   transition: transform 0.2s, border-color 0.2s;
-  font-size: 16px; /* slightly bigger */
+  font-size: 16px;
 }
 .vip-card:hover {
   transform: scale(1.03);
@@ -78,7 +78,12 @@ input, textarea {
 }
 .vip-diamond { border-left: 5px solid gold; }
 .vip-platinum { border-left: 5px solid silver; }
-.vip-gold { border-left: 5px solid #cd7f32; } /* bronze */
+.vip-gold { border-left: 5px solid #cd7f32; }
+.payment-paypal { border-left: 5px solid #003087; } /* blue PayPal */
+.payment-cashapp { border-left: 5px solid #00C244; } /* green CashApp */
+.payment-wire { border-left: 5px solid #555; } /* gray Wire */
+.payment-btc { border-left: 5px solid #F7931A; } /* orange Bitcoin */
+.payment-eth { border-left: 5px solid #3C3C3D; } /* dark Ethereum */
 button {
   background: #000;
   color: #fff;
@@ -92,6 +97,13 @@ button {
 }
 button:hover {
   background: #c40000;
+}
+.payment-instructions {
+  display: none;
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
 }
 .footer-note {
   font-size: 13px;
@@ -109,7 +121,7 @@ button:hover {
 
 <div class="container">
 
-<h1>Meet & Greet REGISTRATION</h1>
+<h1>Meet & Greet Registration</h1>
 
 <h2 class="note">
 NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
@@ -128,6 +140,12 @@ NOTE: You will be required to verify your identity at the location for security 
 
 <label>Reason for Meeting</label>
 <textarea name="reason" rows="4" required></textarea>
+
+<label>Country</label>
+<input type="text" name="country" required>
+
+<label>State / Region</label>
+<input type="text" name="state" required>
 
 <div class="vip-section">
 <label>Select Your VIP Ticket</label>
@@ -152,6 +170,74 @@ NOTE: You will be required to verify your identity at the location for security 
 
 </div>
 
+<div class="vip-section">
+<label>Preferred Payment Method</label>
+
+<div class="vip-card payment-paypal" onclick="selectPayment(this)">
+  <span>PayPal</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="payment_method" value="PayPal" required>
+</div>
+
+<div class="vip-card payment-cashapp" onclick="selectPayment(this)">
+  <span>Cash App</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="payment_method" value="CashApp">
+</div>
+
+<div class="vip-card payment-wire" onclick="selectPayment(this)">
+  <span>Wire Transfer</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="payment_method" value="WireTransfer">
+</div>
+
+<div class="vip-card payment-btc" onclick="selectPayment(this)">
+  <span>Bitcoin</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="payment_method" value="Bitcoin">
+</div>
+
+<div class="vip-card payment-eth" onclick="selectPayment(this)">
+  <span>Ethereum</span>
+  <span class="checkmark">✔</span>
+  <input type="radio" name="payment_method" value="Ethereum">
+</div>
+
+</div>
+
+<div id="PayPal" class="payment-instructions">
+  <strong>PayPal Instructions:</strong><br>
+  Click the PayPal button below to pay securely.<br>
+  <a href="https://www.paypal.com/paypalme/YourPayPalID" target="_blank">Pay Now with PayPal</a>
+</div>
+
+<div id="CashApp" class="payment-instructions">
+  <strong>Cash App Instructions:</strong><br>
+  Send payment to $YourCashtag on Cash App.
+</div>
+
+<div id="WireTransfer" class="payment-instructions">
+  <strong>Wire Transfer Instructions:</strong><br>
+  Bank: Your Bank Name<br>
+  Account Number: 123456789<br>
+  Routing Number: 987654321<br>
+  Reference: Your Name
+</div>
+
+<div id="Bitcoin" class="payment-instructions">
+  <strong>Bitcoin Instructions:</strong><br>
+  Wallet Address: 1A2b3C4d5E6f7G8h9I0j<br>
+  Or scan QR code:<br>
+  <img src="https://chart.googleapis.com/chart?cht=qr&chl=1A2b3C4d5E6f7G8h9I0j&chs=150x150&choe=UTF-8&chld=L|2" alt="Bitcoin QR code">
+</div>
+
+<div id="Ethereum" class="payment-instructions">
+  <strong>Ethereum Instructions:</strong><br>
+  Wallet Address: 0x1234567890abcdef1234567890abcdef12345678<br>
+  Or scan QR code:<br>
+  <img src="https://chart.googleapis.com/chart?cht=qr&chl=0x1234567890abcdef1234567890abcdef12345678&chs=150x150&choe=UTF-8&chld=L|2" alt="Ethereum QR code">
+</div>
+
 <button type="submit">Submit Registration</button>
 
 </form>
@@ -168,6 +254,23 @@ function selectVIP(card) {
   cards.forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
   card.querySelector('input').checked = true;
+}
+
+function selectPayment(card) {
+  const cards = document.querySelectorAll('.vip-card.payment-paypal, .vip-card.payment-cashapp, .vip-card.payment-wire, .vip-card.payment-btc, .vip-card.payment-eth');
+  cards.forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  card.querySelector('input').checked = true;
+  showPaymentInstructions(card.querySelector('input').value);
+}
+
+function showPaymentInstructions(method) {
+  const instructions = document.querySelectorAll('.payment-instructions');
+  instructions.forEach(i => i.style.display = 'none');
+  if(method) {
+    const el = document.getElementById(method);
+    if(el) el.style.display = 'block';
+  }
 }
 </script>
 
