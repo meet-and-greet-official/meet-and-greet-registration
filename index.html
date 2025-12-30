@@ -29,7 +29,7 @@ h1 {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 25px;
+  margin: 25px 0 15px 0;
   color: #c40000;
 }
 label {
@@ -122,7 +122,7 @@ button:hover {
   display: none;
   text-align: center;
   padding: 30px;
-  background: #e6ffed; /* light green background */
+  background: #e6ffed;
   border-radius: 15px;
   font-size: 18px;
   color: #000;
@@ -131,7 +131,7 @@ button:hover {
 }
 #thankyou-message h2 {
   font-size: 26px;
-  color: #2e7d32; /* dark green */
+  color: #2e7d32;
   margin-bottom: 15px;
   position: relative;
 }
@@ -160,10 +160,6 @@ button:hover {
 <div class="container">
 
 <h1>Meet & Greet Registration</h1>
-
-<h2 class="note">
-NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
-</h2>
 
 <form id="registration-form" action="https://formspree.io/f/xwvkywyw" method="POST">
 
@@ -247,14 +243,16 @@ NOTE: You will be required to verify your identity at the location for security 
 
 </form>
 
+<!-- Note at bottom -->
+<h2 class="note">
+NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
+</h2>
+
 <!-- Premium Thank You Message -->
 <div id="thankyou-message">
 <h2>Thank You for Registering!</h2>
-<p>Thank you for submitting your Meet & Greet registration!<br>
-We’ve received your details and will be in touch shortly to confirm your ticket registration.<br><br>
-Please <strong>proceed to make your payment</strong> using the method you selected during registration.<br>
-We’re excited to see you at the event!</p>
-<p>Your information is securely stored and will only be used for meet & greet arrangements.</p>
+<p>We’ve received your Meet & Greet registration. Please proceed to make your payment using the method you selected. Your information is securely stored and will only be used for event arrangements.<br><br>
+<strong>We look forward to seeing you at the event! 🎉</strong></p>
 </div>
 
 <p class="footer-note">
@@ -278,21 +276,16 @@ function selectPayment(card) {
   card.querySelector('input').checked = true;
 }
 
-// Show custom thank you message after submission
 const form = document.getElementById('registration-form');
 form.addEventListener('submit', function(e) {
-  e.preventDefault(); // prevent default redirect
+  e.preventDefault();
   const formData = new FormData(form);
-  
-  // Submit to Formspree
   fetch(form.action, {
     method: form.method,
     body: formData,
     headers: { 'Accept': 'application/json' }
   }).then(response => {
-    // Hide form
     form.style.display = 'none';
-    // Show thank you message
     document.getElementById('thankyou-message').style.display = 'block';
   }).catch(error => {
     alert('Oops! There was a problem submitting your form.');
@@ -300,7 +293,7 @@ form.addEventListener('submit', function(e) {
 });
 </script>
 
-<!-- Google Translate Script -->
+<!-- Google Translate -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
@@ -308,6 +301,43 @@ function googleTranslateElementInit() {
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
 }
+
+// Auto-select allowed languages
+const allowedLanguages = {
+    "en": "en",
+    "en-GB": "en",
+    "en-US": "en",
+    "de": "de",
+    "pl": "pl",
+    "zh": "zh-CN",
+    "ko": "ko",
+    "ja": "ja",
+    "it": "it",
+    "es": "es",
+    "nl": "nl",
+    "fr": "fr",
+    "ro": "ro"
+};
+
+function setAutoLanguage() {
+    const userLang = navigator.language || navigator.userLanguage;
+    let langCode = userLang.split('-')[0];
+    if(allowedLanguages[userLang]) langCode = allowedLanguages[userLang];
+    if(!allowedLanguages[langCode]) return;
+
+    const iframe = document.querySelector('iframe.goog-te-menu-frame');
+    if (iframe) {
+        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const langOptions = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
+        langOptions.forEach(option => {
+            if(option.innerText.toLowerCase() === langCode.toLowerCase()) {
+                option.click();
+            }
+        });
+    }
+}
+
+setTimeout(setAutoLanguage, 2500);
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
