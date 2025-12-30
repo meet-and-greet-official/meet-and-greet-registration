@@ -2,348 +2,340 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Meet & Greet Registration</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meet & Greet Registration</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #f9f9f9, #ffe6e6);
-  padding: 20px;
-  margin: 0;
-}
-.container {
-  max-width: 700px;
-  background: #ffffff;
-  margin: auto;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  position: relative;
-}
-h1 {
-  text-align: center;
-  color: #000000;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #000;
-  display: inline-block;
-  padding-bottom: 5px;
-}
-.note {
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 25px 0 15px 0;
-  color: #c40000;
-}
-label {
-  font-weight: bold;
-}
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 18px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-.vip-section {
-  margin: 25px 0;
-}
-
-/* VIP & Payment Cards */
-.vip-card {
-  border: 2px solid #ccc;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
-  font-size: 17px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-.vip-card:hover {
-  transform: scale(1.03);
-  border-color: #c40000;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-}
-.vip-card input {
-  display: none;
-}
-.vip-card.selected {
-  border-color: #2e7d32;
-  background: #e6ffed;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-.checkmark {
-  font-size: 26px;
-  display: none;
-  color: #2e7d32;
-}
-.vip-card.selected .checkmark {
-  display: block;
-}
-.vip-diamond { border-left: 6px solid gold; }
-.vip-platinum { border-left: 6px solid silver; }
-.vip-gold { border-left: 6px solid #cd7f32; }
-.payment-paypal { border-left: 6px solid #003087; }
-.payment-cashapp { border-left: 6px solid #00C244; }
-.payment-wire { border-left: 6px solid #555; }
-.payment-btc { border-left: 6px solid #F7931A; }
-.payment-eth { border-left: 6px solid #3C3C3D; }
-
-button {
-  background: #000;
-  color: #fff;
-  padding: 14px;
-  width: 100%;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-button:hover {
-  background: #c40000;
-}
-.footer-note {
-  font-size: 13px;
-  text-align: center;
-  margin-top: 20px;
-}
-
-/* Google Translate Restrict Languages */
-.goog-te-menu-frame.skiptranslate,
-.goog-te-menu2-item { display: none !important; }
-.goog-te-menu2-item span.text { display: block !important; }
-
-/* Thank You Message */
-#thankyou-message {
-  display: none;
-  text-align: center;
-  padding: 30px;
-  background: #e6ffed;
-  border-radius: 15px;
-  font-size: 18px;
-  color: #000;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  margin-top: 20px;
-}
-#thankyou-message h2 {
-  font-size: 26px;
-  color: #2e7d32;
-  margin-bottom: 15px;
-  position: relative;
-}
-#thankyou-message h2::before {
-  content: "✔";
-  color: #2e7d32;
-  font-size: 40px;
-  display: block;
-  margin-bottom: 10px;
-}
-#thankyou-message p { line-height: 1.6; }
-@media screen and (max-width: 500px) {
-  .container { padding: 15px; }
-  button { font-size: 14px; padding: 12px; }
-  .vip-card { font-size: 14px; padding: 15px; }
-}
+  body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+  h1 { color: #000; text-decoration: underline; text-align: center; }
+  form { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .row .field { flex: 1; min-width: 150px; display: flex; flex-direction: column; margin-bottom: 15px; }
+  label { margin-bottom: 5px; font-weight: bold; }
+  input, select, textarea { padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+  .vip-options, .payment-options { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+  .card { border: 2px solid #ccc; border-radius: 8px; padding: 15px; flex: 1; min-width: 120px; text-align: center; cursor: pointer; transition: all 0.2s; }
+  .card.selected { border-color: #000; background: #e0e0e0; }
+  .submit-btn { padding: 12px; width: 100%; border: none; background: #000; color: #fff; font-size: 16px; border-radius: 5px; cursor: pointer; }
+  .note { font-size: 14px; margin-top: 15px; color: #555; }
+  .thank-you { display:none; text-align: center; margin-top: 20px; font-size: 16px; font-weight: bold; }
 </style>
 </head>
 <body>
 
-<!-- Google Translate -->
-<div id="google_translate_element"></div>
+<h1 id="header">Meet & Greet Registration</h1>
 
-<div class="container">
+<form id="registrationForm">
+  <div class="row">
+    <div class="field">
+      <label for="firstName" id="labelFirstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+    <div class="field">
+      <label for="lastName" id="labelLastName">Last Name</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
+  </div>
 
-<h1>Meet & Greet Registration</h1>
+  <div class="row">
+    <div class="field">
+      <label for="email" id="labelEmail">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="field">
+      <label for="phone" id="labelPhone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+  </div>
 
-<form id="registration-form" action="https://formspree.io/f/xwvkywyw" method="POST">
+  <div class="row">
+    <div class="field">
+      <label for="country" id="labelCountry">Country</label>
+      <input type="text" id="country" name="country" required>
+    </div>
+    <div class="field">
+      <label for="state" id="labelState">State/Region</label>
+      <input type="text" id="state" name="state">
+    </div>
+  </div>
 
-<label>First Name</label>
-<input type="text" name="first_name" required>
+  <div class="field">
+    <label for="reason" id="labelReason">Reason for Meeting</label>
+    <textarea id="reason" name="reason" rows="3" placeholder="Why do you want to attend?" required></textarea>
+  </div>
 
-<label>Last Name</label>
-<input type="text" name="last_name" required>
+  <div class="field">
+    <label id="labelVIP">Select VIP Tickets</label>
+    <div class="vip-options">
+      <div class="card" data-value="Diamond">$2000<br>Diamond</div>
+      <div class="card" data-value="Platinum">$1500<br>Platinum</div>
+      <div class="card" data-value="Gold">$1000<br>Gold</div>
+    </div>
+    <input type="hidden" name="vipTicket" id="vipTicket" required>
+  </div>
 
-<label>Email Address</label>
-<input type="email" name="email" required>
+  <div class="field">
+    <label id="labelPayment">Select Payment Method</label>
+    <div class="payment-options">
+      <div class="card" data-value="PayPal">PayPal</div>
+      <div class="card" data-value="Cash App">Cash App</div>
+      <div class="card" data-value="Wire Transfer">Wire Transfer</div>
+      <div class="card" data-value="Cryptocurrency">Cryptocurrency</div>
+      <div class="card" data-value="Other">Other</div>
+    </div>
+    <input type="hidden" name="paymentMethod" id="paymentMethod" required>
+  </div>
 
-<label>Phone Number</label>
-<input type="tel" name="phone" placeholder="+1 123 456 7890" required>
+  <div class="field">
+    <label for="preferredDate" id="labelDate">Preferred Meet & Greet Date (optional)</label>
+    <input type="date" id="preferredDate" name="preferredDate">
+  </div>
 
-<label>Reason for Meeting</label>
-<textarea name="reason" rows="4" required></textarea>
+  <button type="submit" class="submit-btn" id="submitBtn">Submit Registration</button>
 
-<label>Country</label>
-<input type="text" name="country" required>
-
-<label>State / Region</label>
-<input type="text" name="state" required>
-
-<div class="vip-section">
-<label>Select Your VIP Ticket</label>
-
-<div class="vip-card vip-diamond" onclick="selectVIP(this)">
-  <span>VIP Diamond Ticket — $2000</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="vip_ticket" value="VIP Diamond Ticket" required>
-</div>
-
-<div class="vip-card vip-platinum" onclick="selectVIP(this)">
-  <span>VIP Platinum Ticket — $1500</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="vip_ticket" value="VIP Platinum Ticket">
-</div>
-
-<div class="vip-card vip-gold" onclick="selectVIP(this)">
-  <span>VIP Gold Ticket — $1000</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="vip_ticket" value="VIP Gold Ticket">
-</div>
-
-</div>
-
-<div class="vip-section">
-<label>Select Payment Method</label>
-
-<div class="vip-card payment-paypal" onclick="selectPayment(this)">
-  <span>PayPal</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="payment_method" value="PayPal" required>
-</div>
-
-<div class="vip-card payment-cashapp" onclick="selectPayment(this)">
-  <span>Cash App</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="payment_method" value="CashApp">
-</div>
-
-<div class="vip-card payment-wire" onclick="selectPayment(this)">
-  <span>Wire Transfer</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="payment_method" value="WireTransfer">
-</div>
-
-<div class="vip-card payment-btc" onclick="selectPayment(this)">
-  <span>Bitcoin</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="payment_method" value="Bitcoin">
-</div>
-
-<div class="vip-card payment-eth" onclick="selectPayment(this)">
-  <span>Ethereum</span>
-  <span class="checkmark">✔</span>
-  <input type="radio" name="payment_method" value="Ethereum">
-</div>
-
-</div>
-
-<button type="submit">Submit Registration</button>
-
+  <p class="note" id="noteText">Your information is handled securely and used only for meet & greet arrangements.</p>
 </form>
 
-<h2 class="note">
-NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
-</h2>
-
-<div id="thankyou-message">
-<h2>Thank You for Registering!</h2>
-<p>We’ve received your Meet & Greet registration. Please proceed to make your payment using the method you selected. Your information is securely stored and will only be used for event arrangements.<br><br>
-<strong>We look forward to seeing you at the event! 🎉</strong></p>
-</div>
-
-<p class="footer-note">
-Your information is handled securely and used only for meet & greet arrangements.
-</p>
-
+<div class="thank-you" id="thankYouMessage">
+  Thank you! Your details have been submitted. Please proceed to make your payment. See you at the event!
 </div>
 
 <script>
-function selectVIP(card) {
-  const cards = document.querySelectorAll('.vip-card.vip-diamond, .vip-card.vip-platinum, .vip-card.vip-gold');
-  cards.forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  card.querySelector('input').checked = true;
-}
-
-function selectPayment(card) {
-  const cards = document.querySelectorAll('.vip-card.payment-paypal, .vip-card.payment-cashapp, .vip-card.payment-wire, .vip-card.payment-btc, .vip-card.payment-eth');
-  cards.forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  card.querySelector('input').checked = true;
-}
-
-const form = document.getElementById('registration-form');
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const formData = new FormData(form);
-  fetch(form.action, {
-    method: form.method,
-    body: formData,
-    headers: { 'Accept': 'application/json' }
-  }).then(response => {
-    form.style.display = 'none';
-    document.getElementById('thankyou-message').style.display = 'block';
-  }).catch(error => {
-    alert('Oops! There was a problem submitting your form.');
+  // VIP selection
+  document.querySelectorAll('.vip-options .card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.vip-options .card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      document.getElementById('vipTicket').value = card.getAttribute('data-value');
+    });
   });
-});
-</script>
 
-<!-- Google Translate -->
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
+  // Payment method selection
+  document.querySelectorAll('.payment-options .card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.payment-options .card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      document.getElementById('paymentMethod').value = card.getAttribute('data-value');
+    });
+  });
 
-const allowedLanguages = {
-    "en": "en",
-    "en-GB": "en",
-    "en-US": "en",
-    "de": "de",
-    "pl": "pl",
-    "zh": "zh-CN",
-    "ko": "ko",
-    "ja": "ja",
-    "it": "it",
-    "es": "es",
-    "nl": "nl",
-    "fr": "fr",
-    "ro": "ro"
-};
+  // Form submission (using Formspree, custom thank you message)
+  document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const endpoint = 'https://formspree.io/f/xwvkywyw';
+    const formData = new FormData(this);
 
-function setAutoLanguage() {
-    const userLang = navigator.language || navigator.userLanguage;
-    let langCode = userLang.split('-')[0];
-    if(allowedLanguages[userLang]) langCode = allowedLanguages[userLang];
-    if(!allowedLanguages[langCode]) return;
+    fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      document.getElementById('registrationForm').style.display = 'none';
+      document.getElementById('thankYouMessage').style.display = 'block';
+    }).catch(error => {
+      alert('Oops! There was a problem submitting your form.');
+    });
+  });
 
-    const iframe = document.querySelector('iframe.goog-te-menu-frame');
-    if (iframe) {
-        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-        const langOptions = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
-
-        langOptions.forEach(option => {
-            const text = option.innerText.toLowerCase();
-            if(!Object.values(allowedLanguages).includes(text)) {
-                option.parentElement.style.display = "none"; // hide non-allowed languages
-            } else if(text === langCode.toLowerCase()) {
-                option.click(); // auto-select user language
-            }
-        });
+  // -------------------------------
+  // Language translation feature
+  // -------------------------------
+  const translations = {
+    en: {
+      header: "Meet & Greet Registration",
+      firstName: "First Name",
+      lastName: "Last Name",
+      email: "Email",
+      phone: "Phone Number",
+      country: "Country",
+      state: "State/Region",
+      reason: "Reason for Meeting",
+      vip: "Select VIP Tickets",
+      payment: "Select Payment Method",
+      date: "Preferred Meet & Greet Date (optional)",
+      note: "Your information is handled securely and used only for meet & greet arrangements.",
+      submit: "Submit Registration",
+      thankYou: "Thank you! Your details have been submitted. Please proceed to make your payment. See you at the event!"
+    },
+    de: {
+      header: "Meet & Greet Anmeldung",
+      firstName: "Vorname",
+      lastName: "Nachname",
+      email: "E-Mail",
+      phone: "Telefonnummer",
+      country: "Land",
+      state: "Bundesland/Region",
+      reason: "Grund für das Treffen",
+      vip: "Wählen Sie VIP-Tickets",
+      payment: "Zahlungsmethode auswählen",
+      date: "Bevorzugtes Meet & Greet Datum (optional)",
+      note: "Ihre Informationen werden sicher behandelt und nur für Meet & Greet-Vereinbarungen verwendet.",
+      submit: "Registrierung absenden",
+      thankYou: "Danke! Ihre Angaben wurden übermittelt. Bitte fahren Sie mit der Zahlung fort. Wir sehen uns bei der Veranstaltung!"
+    },
+    pl: {
+      header: "Rejestracja Meet & Greet",
+      firstName: "Imię",
+      lastName: "Nazwisko",
+      email: "Email",
+      phone: "Numer telefonu",
+      country: "Kraj",
+      state: "Województwo/Region",
+      reason: "Powód spotkania",
+      vip: "Wybierz bilety VIP",
+      payment: "Wybierz metodę płatności",
+      date: "Preferowana data Meet & Greet (opcjonalnie)",
+      note: "Twoje dane są przetwarzane bezpiecznie i wykorzystywane wyłącznie do ustaleń Meet & Greet.",
+      submit: "Wyślij rejestrację",
+      thankYou: "Dziękujemy! Twoje dane zostały przesłane. Prosimy o dokonanie płatności. Do zobaczenia na wydarzeniu!"
+    },
+    zh: {
+      header: "见面会注册",
+      firstName: "名",
+      lastName: "姓",
+      email: "电子邮件",
+      phone: "电话号码",
+      country: "国家",
+      state: "州/地区",
+      reason: "见面原因",
+      vip: "选择VIP票",
+      payment: "选择付款方式",
+      date: "首选见面日期（可选）",
+      note: "您的信息将安全处理，仅用于见面安排。",
+      submit: "提交注册",
+      thankYou: "谢谢！您的信息已提交。请继续付款。活动上见！"
+    },
+    ko: {
+      header: "미팅 등록",
+      firstName: "이름",
+      lastName: "성",
+      email: "이메일",
+      phone: "전화번호",
+      country: "국가",
+      state: "주/지역",
+      reason: "미팅 이유",
+      vip: "VIP 티켓 선택",
+      payment: "결제 수단 선택",
+      date: "선호하는 미팅 날짜(선택 사항)",
+      note: "귀하의 정보는 안전하게 처리되며 Meet & Greet 일정에만 사용됩니다.",
+      submit: "등록 제출",
+      thankYou: "감사합니다! 귀하의 정보가 제출되었습니다. 결제를 진행해주세요. 이벤트에서 뵙겠습니다!"
+    },
+    ja: {
+      header: "ミート＆グリート登録",
+      firstName: "名",
+      lastName: "姓",
+      email: "メール",
+      phone: "電話番号",
+      country: "国",
+      state: "州/地域",
+      reason: "ミーティングの理由",
+      vip: "VIPチケットを選択",
+      payment: "支払い方法を選択",
+      date: "希望のミート＆グリート日（任意）",
+      note: "あなたの情報は安全に扱われ、ミート＆グリートの手配にのみ使用されます。",
+      submit: "登録送信",
+      thankYou: "ありがとうございます！情報は送信されました。支払いを進めてください。イベントでお会いしましょう！"
+    },
+    it: {
+      header: "Registrazione Meet & Greet",
+      firstName: "Nome",
+      lastName: "Cognome",
+      email: "Email",
+      phone: "Numero di telefono",
+      country: "Paese",
+      state: "Stato/Regione",
+      reason: "Motivo dell'incontro",
+      vip: "Seleziona i biglietti VIP",
+      payment: "Seleziona il metodo di pagamento",
+      date: "Data preferita Meet & Greet (opzionale)",
+      note: "Le tue informazioni sono gestite in modo sicuro e utilizzate solo per gli accordi del Meet & Greet.",
+      submit: "Invia registrazione",
+      thankYou: "Grazie! I tuoi dati sono stati inviati. Procedi al pagamento. Ci vediamo all'evento!"
+    },
+    es: {
+      header: "Registro Meet & Greet",
+      firstName: "Nombre",
+      lastName: "Apellido",
+      email: "Correo electrónico",
+      phone: "Número de teléfono",
+      country: "País",
+      state: "Estado/Región",
+      reason: "Razón para asistir",
+      vip: "Seleccione boletos VIP",
+      payment: "Seleccione método de pago",
+      date: "Fecha preferida Meet & Greet (opcional)",
+      note: "Su información se maneja de manera segura y se utiliza solo para los arreglos de Meet & Greet.",
+      submit: "Enviar registro",
+      thankYou: "¡Gracias! Sus datos han sido enviados. Por favor, proceda a realizar su pago. ¡Nos vemos en el evento!"
+    },
+    nl: {
+      header: "Meet & Greet Registratie",
+      firstName: "Voornaam",
+      lastName: "Achternaam",
+      email: "E-mail",
+      phone: "Telefoonnummer",
+      country: "Land",
+      state: "Staat/Regio",
+      reason: "Reden voor het ontmoeten",
+      vip: "Selecteer VIP-tickets",
+      payment: "Selecteer betaalmethode",
+      date: "Voorkeursdatum Meet & Greet (optioneel)",
+      note: "Uw informatie wordt veilig behandeld en alleen gebruikt voor Meet & Greet-regelingen.",
+      submit: "Registratie verzenden",
+      thankYou: "Dank u! Uw gegevens zijn verzonden. Ga verder met betalen. Tot ziens bij het evenement!"
+    },
+    fr: {
+      header: "Inscription Meet & Greet",
+      firstName: "Prénom",
+      lastName: "Nom",
+      email: "Email",
+      phone: "Numéro de téléphone",
+      country: "Pays",
+      state: "État/Région",
+      reason: "Raison de la rencontre",
+      vip: "Sélectionnez les billets VIP",
+      payment: "Sélectionnez le mode de paiement",
+      date: "Date préférée Meet & Greet (facultatif)",
+      note: "Vos informations sont traitées en toute sécurité et utilisées uniquement pour les arrangements Meet & Greet.",
+      submit: "Envoyer l'inscription",
+      thankYou: "Merci ! Vos informations ont été envoyées. Veuillez procéder au paiement. À bientôt à l'événement !"
+    },
+    ro: {
+      header: "Înregistrare Meet & Greet",
+      firstName: "Prenume",
+      lastName: "Nume",
+      email: "Email",
+      phone: "Număr de telefon",
+      country: "Țară",
+      state: "Stat/Regiune",
+      reason: "Motivul întâlnirii",
+      vip: "Selectați biletele VIP",
+      payment: "Selectați metoda de plată",
+      date: "Data preferată Meet & Greet (opțional)",
+      note: "Informațiile dvs. sunt gestionate în siguranță și utilizate doar pentru aranjamentele Meet & Greet.",
+      submit: "Trimite înregistrarea",
+      thankYou: "Mulțumim! Detaliile dvs. au fost trimise. Vă rugăm să efectuați plata. Ne vedem la eveniment!"
     }
-}
+  };
 
-setTimeout(setAutoLanguage, 2500);
+  const userLang = navigator.language.slice(0,2); // get first two letters
+  const lang = translations[userLang] ? userLang : 'en';
+  document.getElementById('header').textContent = translations[lang].header;
+  document.getElementById('labelFirstName').textContent = translations[lang].firstName;
+  document.getElementById('labelLastName').textContent = translations[lang].lastName;
+  document.getElementById('labelEmail').textContent = translations[lang].email;
+  document.getElementById('labelPhone').textContent = translations[lang].phone;
+  document.getElementById('labelCountry').textContent = translations[lang].country;
+  document.getElementById('labelState').textContent = translations[lang].state;
+  document.getElementById('labelReason').textContent = translations[lang].reason;
+  document.getElementById('labelVIP').textContent = translations[lang].vip;
+  document.getElementById('labelPayment').textContent = translations[lang].payment;
+  document.getElementById('labelDate').textContent = translations[lang].date;
+  document.getElementById('noteText').textContent = translations[lang].note;
+  document.getElementById('submitBtn').textContent = translations[lang].submit;
+  document.getElementById('thankYouMessage').textContent = translations[lang].thankYou;
+
 </script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
