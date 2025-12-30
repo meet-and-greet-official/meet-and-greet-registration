@@ -24,6 +24,9 @@ h1 {
   text-align: center;
   color: #000000;
   margin-bottom: 15px;
+  border-bottom: 2px solid #000;
+  display: inline-block;
+  padding-bottom: 5px;
 }
 .note {
   text-align: center;
@@ -47,7 +50,7 @@ input, textarea {
   margin: 25px 0;
 }
 
-/* Premium VIP & Payment Cards */
+/* VIP & Payment Cards */
 .vip-card {
   border: 2px solid #ccc;
   padding: 20px;
@@ -117,7 +120,7 @@ button:hover {
   margin-bottom: 10px;
 }
 
-/* Premium Thank You Message */
+/* Thank You Message */
 #thankyou-message {
   display: none;
   text-align: center;
@@ -154,7 +157,7 @@ button:hover {
 </head>
 <body>
 
-<!-- Google Translate Widget -->
+<!-- Google Translate -->
 <div id="google_translate_element"></div>
 
 <div class="container">
@@ -171,6 +174,9 @@ button:hover {
 
 <label>Email Address</label>
 <input type="email" name="email" required>
+
+<label>Phone Number</label>
+<input type="tel" name="phone" placeholder="+1 123 456 7890" required>
 
 <label>Reason for Meeting</label>
 <textarea name="reason" rows="4" required></textarea>
@@ -248,7 +254,7 @@ button:hover {
 NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
 </h2>
 
-<!-- Premium Thank You Message -->
+<!-- Thank You Message -->
 <div id="thankyou-message">
 <h2>Thank You for Registering!</h2>
 <p>We’ve received your Meet & Greet registration. Please proceed to make your payment using the method you selected. Your information is securely stored and will only be used for event arrangements.<br><br>
@@ -302,7 +308,6 @@ function googleTranslateElementInit() {
   }, 'google_translate_element');
 }
 
-// Auto-select allowed languages
 const allowedLanguages = {
     "en": "en",
     "en-GB": "en",
