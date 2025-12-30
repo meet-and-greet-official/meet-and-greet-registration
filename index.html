@@ -26,7 +26,7 @@ h1 {
 }
 .note {
   text-align: center;
-  font-size: 16px;
+  font-size: 20px; /* bigger for emphasis */
   font-weight: bold;
   margin-bottom: 25px;
   color: #c40000;
@@ -47,7 +47,7 @@ input, textarea {
 }
 .vip-card {
   border: 2px solid #ccc;
-  padding: 15px;
+  padding: 18px;
   border-radius: 8px;
   margin-bottom: 12px;
   cursor: pointer;
@@ -55,6 +55,7 @@ input, textarea {
   justify-content: space-between;
   align-items: center;
   transition: transform 0.2s, border-color 0.2s;
+  font-size: 16px; /* slightly bigger */
 }
 .vip-card:hover {
   transform: scale(1.03);
@@ -68,7 +69,7 @@ input, textarea {
   background: #f9f9f9;
 }
 .checkmark {
-  font-size: 20px;
+  font-size: 22px;
   display: none;
   color: green;
 }
@@ -100,6 +101,7 @@ button:hover {
 @media screen and (max-width: 500px) {
   .container { padding: 15px; }
   button { font-size: 14px; padding: 12px; }
+  .vip-card { font-size: 14px; padding: 15px; }
 }
 </style>
 </head>
