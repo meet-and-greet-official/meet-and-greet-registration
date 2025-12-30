@@ -18,10 +18,11 @@ body {
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative;
 }
 h1 {
   text-align: center;
-  color: #000000; /* black title */
+  color: #000000;
   margin-bottom: 15px;
 }
 .note {
@@ -45,45 +46,51 @@ input, textarea {
 .vip-section {
   margin: 25px 0;
 }
+
+/* Premium VIP & Payment Cards */
 .vip-card {
   border: 2px solid #ccc;
-  padding: 18px;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 15px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s, border-color 0.2s;
-  font-size: 16px;
+  transition: transform 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 .vip-card:hover {
   transform: scale(1.03);
   border-color: #c40000;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 .vip-card input {
   display: none;
 }
 .vip-card.selected {
-  border-color: #000;
-  background: #f9f9f9;
+  border-color: #2e7d32;
+  background: #e6ffed;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 .checkmark {
-  font-size: 22px;
+  font-size: 26px;
   display: none;
-  color: green;
+  color: #2e7d32;
 }
 .vip-card.selected .checkmark {
   display: block;
 }
-.vip-diamond { border-left: 5px solid gold; }
-.vip-platinum { border-left: 5px solid silver; }
-.vip-gold { border-left: 5px solid #cd7f32; }
-.payment-paypal { border-left: 5px solid #003087; } /* blue PayPal */
-.payment-cashapp { border-left: 5px solid #00C244; } /* green CashApp */
-.payment-wire { border-left: 5px solid #555; } /* gray Wire */
-.payment-btc { border-left: 5px solid #F7931A; } /* orange Bitcoin */
-.payment-eth { border-left: 5px solid #3C3C3D; } /* dark Ethereum */
+.vip-diamond { border-left: 6px solid gold; }
+.vip-platinum { border-left: 6px solid silver; }
+.vip-gold { border-left: 6px solid #cd7f32; }
+.payment-paypal { border-left: 6px solid #003087; }
+.payment-cashapp { border-left: 6px solid #00C244; }
+.payment-wire { border-left: 6px solid #555; }
+.payment-btc { border-left: 6px solid #F7931A; }
+.payment-eth { border-left: 6px solid #3C3C3D; }
+
 button {
   background: #000;
   color: #fff;
@@ -98,17 +105,45 @@ button {
 button:hover {
   background: #c40000;
 }
-.payment-instructions {
-  display: none;
-  background: #f1f1f1;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
 .footer-note {
   font-size: 13px;
   text-align: center;
   margin-top: 20px;
+}
+
+/* Google Translate */
+#google_translate_element {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+/* Premium Thank You Message */
+#thankyou-message {
+  display: none;
+  text-align: center;
+  padding: 30px;
+  background: #e6ffed; /* light green background */
+  border-radius: 15px;
+  font-size: 18px;
+  color: #000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+#thankyou-message h2 {
+  font-size: 26px;
+  color: #2e7d32; /* dark green */
+  margin-bottom: 15px;
+  position: relative;
+}
+#thankyou-message h2::before {
+  content: "✔";
+  color: #2e7d32;
+  font-size: 40px;
+  display: block;
+  margin-bottom: 10px;
+}
+#thankyou-message p {
+  line-height: 1.6;
 }
 @media screen and (max-width: 500px) {
   .container { padding: 15px; }
@@ -119,6 +154,9 @@ button:hover {
 </head>
 <body>
 
+<!-- Google Translate Widget -->
+<div id="google_translate_element"></div>
+
 <div class="container">
 
 <h1>Meet & Greet Registration</h1>
@@ -127,7 +165,7 @@ button:hover {
 NOTE: You will be required to verify your identity at the location for security purposes. Be rest assured your details are secured.
 </h2>
 
-<form action="https://formspree.io/f/xwvkywyw" method="POST">
+<form id="registration-form" action="https://formspree.io/f/xwvkywyw" method="POST">
 
 <label>First Name</label>
 <input type="text" name="first_name" required>
@@ -171,7 +209,7 @@ NOTE: You will be required to verify your identity at the location for security 
 </div>
 
 <div class="vip-section">
-<label>Preferred Payment Method</label>
+<label>Select Payment Method</label>
 
 <div class="vip-card payment-paypal" onclick="selectPayment(this)">
   <span>PayPal</span>
@@ -205,42 +243,19 @@ NOTE: You will be required to verify your identity at the location for security 
 
 </div>
 
-<div id="PayPal" class="payment-instructions">
-  <strong>PayPal Instructions:</strong><br>
-  Click the PayPal button below to pay securely.<br>
-  <a href="https://www.paypal.com/paypalme/YourPayPalID" target="_blank">Pay Now with PayPal</a>
-</div>
-
-<div id="CashApp" class="payment-instructions">
-  <strong>Cash App Instructions:</strong><br>
-  Send payment to $YourCashtag on Cash App.
-</div>
-
-<div id="WireTransfer" class="payment-instructions">
-  <strong>Wire Transfer Instructions:</strong><br>
-  Bank: Your Bank Name<br>
-  Account Number: 123456789<br>
-  Routing Number: 987654321<br>
-  Reference: Your Name
-</div>
-
-<div id="Bitcoin" class="payment-instructions">
-  <strong>Bitcoin Instructions:</strong><br>
-  Wallet Address: 1A2b3C4d5E6f7G8h9I0j<br>
-  Or scan QR code:<br>
-  <img src="https://chart.googleapis.com/chart?cht=qr&chl=1A2b3C4d5E6f7G8h9I0j&chs=150x150&choe=UTF-8&chld=L|2" alt="Bitcoin QR code">
-</div>
-
-<div id="Ethereum" class="payment-instructions">
-  <strong>Ethereum Instructions:</strong><br>
-  Wallet Address: 0x1234567890abcdef1234567890abcdef12345678<br>
-  Or scan QR code:<br>
-  <img src="https://chart.googleapis.com/chart?cht=qr&chl=0x1234567890abcdef1234567890abcdef12345678&chs=150x150&choe=UTF-8&chld=L|2" alt="Ethereum QR code">
-</div>
-
 <button type="submit">Submit Registration</button>
 
 </form>
+
+<!-- Premium Thank You Message -->
+<div id="thankyou-message">
+<h2>Thank You for Registering!</h2>
+<p>Thank you for submitting your Meet & Greet registration!<br>
+We’ve received your details and will be in touch shortly to confirm your ticket registration.<br><br>
+Please <strong>proceed to make your payment</strong> using the method you selected during registration.<br>
+We’re excited to see you at the event!</p>
+<p>Your information is securely stored and will only be used for meet & greet arrangements.</p>
+</div>
 
 <p class="footer-note">
 Your information is handled securely and used only for meet & greet arrangements.
@@ -250,7 +265,7 @@ Your information is handled securely and used only for meet & greet arrangements
 
 <script>
 function selectVIP(card) {
-  const cards = document.querySelectorAll('.vip-card');
+  const cards = document.querySelectorAll('.vip-card.vip-diamond, .vip-card.vip-platinum, .vip-card.vip-gold');
   cards.forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
   card.querySelector('input').checked = true;
@@ -261,18 +276,40 @@ function selectPayment(card) {
   cards.forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
   card.querySelector('input').checked = true;
-  showPaymentInstructions(card.querySelector('input').value);
 }
 
-function showPaymentInstructions(method) {
-  const instructions = document.querySelectorAll('.payment-instructions');
-  instructions.forEach(i => i.style.display = 'none');
-  if(method) {
-    const el = document.getElementById(method);
-    if(el) el.style.display = 'block';
-  }
+// Show custom thank you message after submission
+const form = document.getElementById('registration-form');
+form.addEventListener('submit', function(e) {
+  e.preventDefault(); // prevent default redirect
+  const formData = new FormData(form);
+  
+  // Submit to Formspree
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    // Hide form
+    form.style.display = 'none';
+    // Show thank you message
+    document.getElementById('thankyou-message').style.display = 'block';
+  }).catch(error => {
+    alert('Oops! There was a problem submitting your form.');
+  });
+});
+</script>
+
+<!-- Google Translate Script -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
 }
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
