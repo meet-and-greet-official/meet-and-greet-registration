@@ -5,174 +5,230 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meet & Greet Registration</title>
 <style>
-  body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-  h1 { color: #000; text-decoration: underline; text-align: center; }
-  form { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
-  .row .field { flex: 1; min-width: 150px; display: flex; flex-direction: column; }
-  label { margin-bottom: 5px; font-weight: bold; }
-  input, select, textarea { padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
-  .vip-options, .payment-options { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
-  .card { border: 2px solid #ccc; border-radius: 8px; padding: 15px; flex: 1; min-width: 120px; text-align: center; cursor: pointer; transition: all 0.2s; }
-  .card.selected { border-color: #000; background: #e0e0e0; }
-  .card img { width: 50px; height: 50px; margin-bottom: 5px; }
-  .submit-btn { padding: 12px; width: 100%; border: none; background: #000; color: #fff; font-size: 16px; border-radius: 5px; cursor: pointer; }
-  .note { font-size: 14px; margin-top: 15px; color: #555; }
-  .thank-you { display:none; text-align: center; margin-top: 20px; font-size: 16px; font-weight: bold; }
-  @media(max-width: 600px){
-    .row { flex-direction: column; }
-    .vip-options, .payment-options { flex-direction: column; }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #fff;
+    color: #000;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  form {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .row {
+    display: flex;
+    flex-wrap: nowrap; /* Keep horizontal */
+    gap: 20px;
+    margin-bottom: 15px;
+    overflow-x: auto; /* Allow horizontal scroll on small screens */
+  }
+  .row .field {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px; /* Prevent fields from being too small */
+  }
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  input, select, textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  textarea {
+    resize: vertical;
+  }
+  .vip-options, .payment-options {
+    display: flex;
+    flex-wrap: nowrap; /* Keep horizontal */
+    gap: 15px;
+    margin: 15px 0;
+    overflow-x: auto; /* Horizontal scroll if needed */
+  }
+  .card {
+    flex: 0 0 150px; /* Fixed width for consistency */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8f9fa;
+  }
+  .card.selected {
+    border-color: #28a745; /* green border highlight */
+    background: #d4edda; /* light green background */
+  }
+  .card img {
+    max-width: 50px;
+    margin-bottom: 10px;
+  }
+  .payment-options input[type="radio"] {
+    display: none;
+  }
+  .note, .note-bottom {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+  }
+  .submit-btn {
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #000; /* black button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .thank-you {
+    margin-top: 20px;
+    padding: 15px;
+    background: #d4edda;
+    border-left: 6px solid #28a745;
+    font-size: 16px;
   }
 </style>
+<script>
+function selectCard(group, el) {
+  const cards = document.querySelectorAll(`.${group} .card`);
+  cards.forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const input = el.querySelector('input');
+  input.checked = true;
+}
+</script>
 </head>
 <body>
 
-<h1 id="header">Meet & Greet Registration</h1>
+<h1>Meet & Greet Registration</h1>
 
-<form id="registrationForm">
+<form id="meetForm" action="https://formspree.io/f/xwvkywyw" method="POST">
+  <!-- Horizontal Name Fields -->
   <div class="row">
     <div class="field">
-      <label for="firstName" id="labelFirstName">First Name</label>
+      <label for="firstName">First Name:*</label>
       <input type="text" id="firstName" name="firstName" required>
     </div>
     <div class="field">
-      <label for="lastName" id="labelLastName">Last Name</label>
+      <label for="lastName">Last Name:*</label>
       <input type="text" id="lastName" name="lastName" required>
     </div>
   </div>
 
+  <!-- Horizontal Email / Phone -->
   <div class="row">
     <div class="field">
-      <label for="email" id="labelEmail">Email</label>
+      <label for="email">Email Address:*</label>
       <input type="email" id="email" name="email" required>
     </div>
     <div class="field">
-      <label for="phone" id="labelPhone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" required>
+      <label for="phone">Phone Number:</label>
+      <input type="text" id="phone" name="phone">
     </div>
   </div>
 
+  <!-- Horizontal Country / State -->
   <div class="row">
     <div class="field">
-      <label for="country" id="labelCountry">Country</label>
-      <input type="text" id="country" name="country" required>
+      <label for="country">Country:</label>
+      <select id="country" name="country">
+        <option value="">Select Country</option>
+      </select>
     </div>
     <div class="field">
-      <label for="state" id="labelState">State/Region</label>
-      <input type="text" id="state" name="state">
+      <label for="state">State/Region:</label>
+      <select id="state" name="state">
+        <option value="">Select Region</option>
+      </select>
     </div>
   </div>
 
   <div class="field">
-    <label for="reason" id="labelReason">Reason for Meeting</label>
-    <textarea id="reason" name="reason" rows="3" placeholder="Why do you want to attend?" required></textarea>
+    <label for="date">Preferred Meet & Greet Date (optional)</label>
+    <input type="text" id="date" name="date">
   </div>
 
   <div class="field">
-    <label id="labelVIP">Select VIP Tickets</label>
-    <div class="vip-options">
-      <div class="card" data-value="Diamond">
-        <img src="diamond.png" alt="Diamond">
-        $2000<br>Diamond
-      </div>
-      <div class="card" data-value="Platinum">
-        <img src="platinum.png" alt="Platinum">
-        $1500<br>Platinum
-      </div>
-      <div class="card" data-value="Gold">
-        <img src="gold.png" alt="Gold">
-        $1000<br>Gold
-      </div>
+    <label for="reason">Reason for Meeting:</label>
+    <textarea id="reason" name="reason" rows="3"></textarea>
+  </div>
+
+  <label>Select VIP Ticket Level:*</label>
+  <div class="vip-options vip">
+    <div class="card" onclick="selectCard('vip', this)">
+      <input type="radio" name="vip" value="Diamond" required>
+      <img src="diamond.png" alt="Diamond">
+      <strong>Diamond</strong>
+      <div>$2000</div>
     </div>
-    <input type="hidden" name="vipTicket" id="vipTicket" required>
-  </div>
-
-  <div class="field">
-    <label id="labelPayment">Select Payment Method</label>
-    <div class="payment-options">
-      <div class="card" data-value="PayPal">PayPal</div>
-      <div class="card" data-value="Cash App">Cash App</div>
-      <div class="card" data-value="Wire Transfer">Wire Transfer</div>
-      <div class="card" data-value="Cryptocurrency">Cryptocurrency</div>
-      <div class="card" data-value="Other">Other</div>
+    <div class="card" onclick="selectCard('vip', this)">
+      <input type="radio" name="vip" value="Platinum" required>
+      <img src="platinum.png" alt="Platinum">
+      <strong>Platinum</strong>
+      <div>$1500</div>
     </div>
-    <input type="hidden" name="paymentMethod" id="paymentMethod" required>
-    <p style="font-size:14px; color:#555; margin-top:5px;">
-      After submitting this registration, you will be contacted with instructions based on your selected payment method.
-    </p>
+    <div class="card" onclick="selectCard('vip', this)">
+      <input type="radio" name="vip" value="Gold" required>
+      <img src="gold.png" alt="Gold">
+      <strong>Gold</strong>
+      <div>$1000</div>
+    </div>
   </div>
 
-  <div class="field">
-    <label for="preferredDate" id="labelDate">Preferred Meet & Greet Date (optional)</label>
-    <input type="date" id="preferredDate" name="preferredDate">
+  <label>Select Payment Method:*</label>
+  <div class="payment-options payment">
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="PayPal" required> PayPal
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Cash App" required> Cash App
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Wire Transfer" required> Wire Transfer
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Cryptocurrency" required> Cryptocurrency
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Other" required> Other
+    </label>
   </div>
 
-  <button type="submit" class="submit-btn" id="submitBtn">Submit Registration</button>
+  <p class="note">After submitting this registration, you will be contacted with payment instructions based on your selected method.</p>
 
-  <p class="note" id="noteText">Your information is handled securely and used only for meet & greet arrangements.</p>
+  <button type="submit" class="submit-btn">Submit Registration</button>
+
+  <div class="thank-you" style="display:none;" id="thankMessage">
+    Thank you! Your Meet & Greet details have been submitted successfully. Please proceed to make your payment.<br>
+    See you at the event! 🎉
+  </div>
+
+  <p class="note-bottom">
+    <strong>NOTE:</strong> Please bring a valid ID to the event. Payment details will be provided after registration.<br>
+    Your information is handled securely and used only for meet & greet arrangements.
+  </p>
 </form>
 
-<div class="thank-you" id="thankYouMessage">
-  Thank you! Your Meet & Greet details have been submitted successfully. Please proceed to make your payment.<br><br>
-  See you at the event! 🎉
-</div>
-
 <script>
-  // VIP selection
-  document.querySelectorAll('.vip-options .card').forEach(card => {
-    card.addEventListener('click', () => {
-      document.querySelectorAll('.vip-options .card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      document.getElementById('vipTicket').value = card.getAttribute('data-value');
-    });
-  });
-
-  // Payment method selection
-  document.querySelectorAll('.payment-options .card').forEach(card => {
-    card.addEventListener('click', () => {
-      document.querySelectorAll('.payment-options .card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      document.getElementById('paymentMethod').value = card.getAttribute('data-value');
-    });
-  });
-
-  // Form submission (Formspree)
-  document.getElementById('registrationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const endpoint = 'https://formspree.io/f/xwvkywyw';
-    const formData = new FormData(this);
-
-    fetch(endpoint, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    }).then(response => {
-      document.getElementById('registrationForm').style.display = 'none';
-      document.getElementById('thankYouMessage').style.display = 'block';
-    }).catch(error => {
-      alert('Oops! There was a problem submitting your form.');
-    });
-  });
-
-  // Language translation
-  const translations = { /* same translations as before */ };
-  const userLang = navigator.language.slice(0,2);
-  const lang = translations[userLang] ? userLang : 'en';
-  document.getElementById('header').textContent = translations[lang].header;
-  document.getElementById('labelFirstName').textContent = translations[lang].firstName;
-  document.getElementById('labelLastName').textContent = translations[lang].lastName;
-  document.getElementById('labelEmail').textContent = translations[lang].email;
-  document.getElementById('labelPhone').textContent = translations[lang].phone;
-  document.getElementById('labelCountry').textContent = translations[lang].country;
-  document.getElementById('labelState').textContent = translations[lang].state;
-  document.getElementById('labelReason').textContent = translations[lang].reason;
-  document.getElementById('labelVIP').textContent = translations[lang].vip;
-  document.getElementById('labelPayment').textContent = translations[lang].payment;
-  document.getElementById('labelDate').textContent = translations[lang].date;
-  document.getElementById('noteText').textContent = translations[lang].note;
-  document.getElementById('submitBtn').textContent = translations[lang].submit;
-  document.getElementById('thankYouMessage').innerHTML = "Thank you! Your Meet & Greet details have been submitted successfully. Please proceed to make your payment.<br><br>See you at the event! 🎉";
+const form = document.getElementById('meetForm');
+const thank = document.getElementById('thankMessage');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  thank.style.display = 'block';
+  form.reset();
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+});
 </script>
 
 </body>
-                                                       </html>
+  </html>
