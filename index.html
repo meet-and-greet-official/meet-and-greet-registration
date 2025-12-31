@@ -6,166 +6,70 @@
 <title>Meet & Greet Registration</title>
 <style>
 body { font-family: Arial, sans-serif; margin:20px; background:#fff; color:#000; }
-h1 { font-size:28px; font-weight:bold; color:#000; text-align:center; margin-bottom:20px; }
-form { max-width:700px; margin:auto; }
-label { display:block; margin-top:15px; font-weight:bold; }
-input[type="text"], input[type="email"], input[type="tel"], textarea, select { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; }
-.flex-row { display:flex; flex-wrap:wrap; gap:10px; }
-.flex-row .flex-item { flex:1; min-width:150px; }
-.vip-option, .payment-option { display:flex; align-items:center; margin-top:10px; padding:8px; border:1px solid #ccc; border-radius:5px; cursor:pointer; }
-.vip-option img, .payment-option img { width:40px; height:40px; margin-right:10px; }
-.vip-option input, .payment-option input { margin-right:10px; }
-.vip-option:hover, .payment-option:hover { background:#f0f0f0; }
-.submit-btn { margin-top:20px; background:#28a745; color:#fff; padding:12px 20px; border:none; border-radius:5px; font-size:18px; cursor:pointer; width:100%; }
-.submit-btn:hover { background:#218838; }
-.note { color:red; font-weight:bold; margin-top:20px; display:block; }
-.note-text { color:#000; font-weight:normal; margin-top:5px; line-height:1.5; }
-.language-selector { text-align:center; margin-bottom:20px; }
+h1 { font-size:28px; font-weight:bold; text-align:center; margin-bottom:20px; color:#000; }
+form { max-width:900px; margin:0 auto; }
+.row { display:flex; flex-wrap:nowrap; gap:20px; margin-bottom:15px; overflow-x:auto; }
+.row .field { flex:1 1 45%; display:flex; flex-direction:column; min-width:150px; }
+label { font-weight:bold; margin-bottom:5px; }
+input, textarea, select { padding:10px; font-size:16px; border:1px solid #ccc; border-radius:4px; }
+textarea { resize: vertical; }
+.vip-options, .payment-options { display:flex; flex-direction:column; gap:15px; margin:15px 0; }
+.card { border:2px solid #ccc; border-radius:8px; padding:15px; text-align:center; cursor:pointer; transition: all 0.2s; background:#f8f9fa; }
+.card.selected { border-color:#28a745; background:#d4edda; }
+.card img { max-width:50px; margin-bottom:10px; }
+.vip-options input[type="radio"], .payment-options input[type="radio"] { display:none; }
+.note, .note-bottom { margin-top:15px; font-size:14px; color:#555; }
+.note-red { color:red; font-weight:bold; }
+.submit-btn { margin-top:20px; padding:15px 25px; font-size:16px; font-weight:bold; background:#000; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+.language-selector { margin-bottom:20px; }
+@media (max-width:600px) { .row .field { flex:1 1 100%; } }
 </style>
 <script>
-// Multi-language text
-const translations = {
-  en: {
-    firstName:"First Name",
-    lastName:"Last Name",
-    email:"Email",
-    phone:"Phone Number",
-    country:"Country",
-    region:"Region/State",
-    reason:"Reason for Meeting",
-    date:"Preferred Date",
-    vip:"Select VIP Tickets",
-    diamond:"Diamond - $2000",
-    platinum:"Platinum - $1500",
-    gold:"Gold - $1000",
-    payment:"Select Payment Method",
-    paypal:"PayPal",
-    cashapp:"Cash App",
-    wire:"Wire Transfer",
-    crypto:"Cryptocurrency",
-    other:"Other",
-    noteTitle:"NOTE:",
-    note1:"Please bring a valid ID to the event.",
-    note2:"Payment details will be provided after registration.",
-    note3:"Your information is handled securely and used only for meet & greet arrangements.",
-    submit:"Submit Registration",
-    selectLang:"Select Language:"
-  },
-  de: {
-    firstName:"Vorname",
-    lastName:"Nachname",
-    email:"E-Mail",
-    phone:"Telefonnummer",
-    country:"Land",
-    region:"Region/Bundesland",
-    reason:"Grund für das Treffen",
-    date:"Bevorzugtes Datum",
-    vip:"VIP-Tickets auswählen",
-    diamond:"Diamond - $2000",
-    platinum:"Platinum - $1500",
-    gold:"Gold - $1000",
-    payment:"Zahlungsmethode auswählen",
-    paypal:"PayPal",
-    cashapp:"Cash App",
-    wire:"Banküberweisung",
-    crypto:"Kryptowährung",
-    other:"Andere",
-    noteTitle:"HINWEIS:",
-    note1:"Bitte bringen Sie einen gültigen Ausweis zur Veranstaltung mit.",
-    note2:"Zahlungsdetails werden nach der Registrierung bereitgestellt.",
-    note3:"Ihre Informationen werden sicher verarbeitet und nur für Meet & Greet-Veranstaltungen verwendet.",
-    submit:"Registrierung absenden",
-    selectLang:"Sprache auswählen:"
-  },
-  es: {
-    firstName:"Nombre",
-    lastName:"Apellido",
-    email:"Correo electrónico",
-    phone:"Número de teléfono",
-    country:"País",
-    region:"Región/Estado",
-    reason:"Razón para reunirse",
-    date:"Fecha preferida",
-    vip:"Seleccione boletos VIP",
-    diamond:"Diamond - $2000",
-    platinum:"Platinum - $1500",
-    gold:"Gold - $1000",
-    payment:"Seleccionar método de pago",
-    paypal:"PayPal",
-    cashapp:"Cash App",
-    wire:"Transferencia bancaria",
-    crypto:"Criptomoneda",
-    other:"Otro",
-    noteTitle:"NOTA:",
-    note1:"Por favor, traiga una identificación válida al evento.",
-    note2:"Los detalles de pago se proporcionarán después del registro.",
-    note3:"Su información se maneja de manera segura y solo se utiliza para los arreglos de Meet & Greet.",
-    submit:"Enviar registro",
-    selectLang:"Seleccionar idioma:"
-  },
-  pt: {
-    firstName:"Nome",
-    lastName:"Sobrenome",
-    email:"E-mail",
-    phone:"Número de telefone",
-    country:"País",
-    region:"Região/Estado",
-    reason:"Motivo da reunião",
-    date:"Data preferida",
-    vip:"Selecione os ingressos VIP",
-    diamond:"Diamond - $2000",
-    platinum:"Platinum - $1500",
-    gold:"Gold - $1000",
-    payment:"Selecionar método de pagamento",
-    paypal:"PayPal",
-    cashapp:"Cash App",
-    wire:"Transferência bancária",
-    crypto:"Criptomoeda",
-    other:"Outro",
-    noteTitle:"NOTA:",
-    note1:"Por favor, traga um documento de identificação válido para o evento.",
-    note2:"Os detalhes de pagamento serão fornecidos após o registro.",
-    note3:"Suas informações são tratadas com segurança e usadas apenas para os arranjos do Meet & Greet.",
-    submit:"Enviar registro",
-    selectLang:"Selecionar idioma:"
-  }
-  // Add other languages similarly
-};
-
-// Change language dynamically
-function changeLanguage(lang){
-  const t = translations[lang];
-  if(!t) return;
-  document.getElementById('lblFirst').textContent = t.firstName;
-  document.getElementById('lblLast').textContent = t.lastName;
-  document.getElementById('lblEmail').textContent = t.email;
-  document.getElementById('lblPhone').textContent = t.phone;
-  document.getElementById('lblCountry').textContent = t.country;
-  document.getElementById('lblRegion').textContent = t.region;
-  document.getElementById('lblReason').textContent = t.reason;
-  document.getElementById('lblDate').textContent = t.date;
-  document.getElementById('vipTitle').textContent = t.vip;
-  document.getElementById('diamondLbl').textContent = t.diamond;
-  document.getElementById('platinumLbl').textContent = t.platinum;
-  document.getElementById('goldLbl').textContent = t.gold;
-  document.getElementById('paymentTitle').textContent = t.payment;
-  document.getElementById('paypalLbl').textContent = t.paypal;
-  document.getElementById('cashappLbl').textContent = t.cashapp;
-  document.getElementById('wireLbl').textContent = t.wire;
-  document.getElementById('cryptoLbl').textContent = t.crypto;
-  document.getElementById('otherLbl').textContent = t.other;
-  document.getElementById('noteTitle').textContent = t.noteTitle;
-  document.getElementById('note1').textContent = t.note1;
-  document.getElementById('note2').textContent = t.note2;
-  document.getElementById('note3').textContent = t.note3;
-  document.getElementById('submitBtn').value = t.submit;
-  document.getElementById('langLabel').textContent = t.selectLang;
+function selectCard(group, el) {
+  const cards = document.querySelectorAll(`.${group} .card`);
+  cards.forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const input = el.querySelector('input');
+  input.checked = true;
 }
 
-// Redirect to thank-you page on submit
-function submitForm(e){
-  e.preventDefault();
-  window.location.href="thank-you.html";
+// Redirect to thank-you page after form submission
+function redirectThankYou(){
+  setTimeout(function(){
+    window.location.href = 'thank-you.html';
+  }, 500);
+  return true; 
+}
+
+// Language translations
+const translations = {
+  en: { firstName:"First Name:*", lastName:"Last Name:*", email:"Email Address:*", phone:"Phone Number:", country:"Country:", state:"State/Region:", date:"Preferred Meet & Greet Date (optional)", reason:"Reason for Meeting:", vip:"Select VIP Ticket Level:*", payment:"Select Payment Method:*", noteBottom:"Please bring a valid ID to the event. Payment details will be provided after registration. Your information is handled securely and used only for meet & greet arrangements.", submit:"Submit Registration" },
+  de: { firstName:"Vorname:*", lastName:"Nachname:*", email:"E-Mail:*", phone:"Telefon:", country:"Land:", state:"Bundesland/Region:", date:"Bevorzugtes Treffen-Datum (optional)", reason:"Grund für das Treffen:", vip:"Wählen Sie Ihr VIP-Ticket:*", payment:"Zahlungsmethode wählen:*", noteBottom:"Bitte bringen Sie einen gültigen Ausweis zur Veranstaltung mit. Zahlungsinformationen werden nach der Registrierung bereitgestellt. Ihre Daten werden sicher behandelt und nur für Meet & Greet-Veranstaltungen verwendet.", submit:"Registrierung absenden" },
+  es: { firstName:"Nombre:*", lastName:"Apellido:*", email:"Correo electrónico:*", phone:"Teléfono:", country:"País:", state:"Estado/Región:", date:"Fecha preferida para el encuentro (opcional)", reason:"Motivo de la reunión:", vip:"Seleccione nivel de VIP:*", payment:"Seleccione método de pago:*", noteBottom:"Por favor traiga una identificación válida al evento. Los detalles de pago se proporcionarán después del registro. Su información se maneja de manera segura y solo se utiliza para arreglos de Meet & Greet.", submit:"Enviar registro" },
+  it: { firstName:"Nome:*", lastName:"Cognome:*", email:"Email:*", phone:"Telefono:", country:"Paese:", state:"Regione:", date:"Data preferita (opzionale)", reason:"Motivo dell'incontro:", vip:"Seleziona il livello VIP:*", payment:"Seleziona metodo di pagamento:*", noteBottom:"Si prega di portare un documento valido all'evento. I dettagli del pagamento verranno forniti dopo la registrazione. Le tue informazioni sono gestite in modo sicuro e utilizzate solo per Meet & Greet.", submit:"Invia registrazione" },
+  fr: { firstName:"Prénom:*", lastName:"Nom:*", email:"Email:*", phone:"Téléphone:", country:"Pays:", state:"Région:", date:"Date préférée (optionnel)", reason:"Raison de la rencontre:", vip:"Sélectionnez le niveau VIP:*", payment:"Sélectionnez le mode de paiement:*", noteBottom:"Veuillez apporter une pièce d'identité valide à l'événement. Les détails du paiement seront fournis après l'inscription. Vos informations sont traitées en toute sécurité et utilisées uniquement pour les arrangements Meet & Greet.", submit:"Soumettre l'inscription" },
+  pl: { firstName:"Imię:*", lastName:"Nazwisko:*", email:"Email:*", phone:"Telefon:", country:"Kraj:", state:"Województwo:", date:"Preferowana data spotkania (opcjonalnie)", reason:"Powód spotkania:", vip:"Wybierz poziom VIP:*", payment:"Wybierz metodę płatności:*", noteBottom:"Proszę przynieść ważny dowód tożsamości na wydarzenie. Szczegóły płatności zostaną podane po rejestracji. Twoje dane są bezpieczne i używane wyłącznie do ustaleń Meet & Greet.", submit:"Wyślij rejestrację" },
+  zh: { firstName:"名:*", lastName:"姓:*", email:"邮箱:*", phone:"电话:", country:"国家:", state:"州/地区:", date:"首选会面日期（可选）", reason:"见面原因:", vip:"选择VIP等级:*", payment:"选择付款方式:*", noteBottom:"请携带有效身份证件参加活动。付款详情将在注册后提供。您的信息将安全处理，仅用于Meet & Greet安排。", submit:"提交注册" },
+  ja: { firstName:"名:*", lastName:"姓:*", email:"メール:*", phone:"電話:", country:"国:", state:"州/地域:", date:"希望日（任意）", reason:"会う理由:", vip:"VIPレベルを選択:*", payment:"支払い方法を選択:*", noteBottom:"有効な身分証明書をイベントに持参してください。支払いの詳細は登録後に提供されます。あなたの情報は安全に管理され、Meet & Greetの手配のみに使用されます。", submit:"登録を送信" },
+  ko: { firstName:"이름:*", lastName:"성:*", email:"이메일:*", phone:"전화:", country:"국가:", state:"주/지역:", date:"선호 회의 날짜 (선택 사항)", reason:"회의 이유:", vip:"VIP 등급 선택:*", payment:"결제 방법 선택:*", noteBottom:"유효한 신분증을 이벤트에 지참하십시오. 결제 정보는 등록 후 제공됩니다. 귀하의 정보는 안전하게 처리되며 Meet & Greet 준비에만 사용됩니다.", submit:"등록 제출" },
+  nl: { firstName:"Voornaam:*", lastName:"Achternaam:*", email:"E-mail:*", phone:"Telefoon:", country:"Land:", state:"Staat/Regio:", date:"Voorkeursdatum (optioneel)", reason:"Reden voor ontmoeting:", vip:"Selecteer VIP-niveau:*", payment:"Selecteer betaalmethode:*", noteBottom:"Breng een geldig ID mee naar het evenement. Betalingsgegevens worden na registratie verstrekt. Uw informatie wordt veilig behandeld en alleen gebruikt voor Meet & Greet-regelingen.", submit:"Registratie verzenden" },
+  ro: { firstName:"Prenume:*", lastName:"Nume:*", email:"Email:*", phone:"Telefon:", country:"Țară:", state:"Stat/Regiune:", date:"Data preferată (opțional)", reason:"Motivul întâlnirii:", vip:"Selectați nivelul VIP:*", payment:"Selectați metoda de plată:*", noteBottom:"Vă rugăm să aduceți un act de identitate valabil la eveniment. Detaliile plății vor fi furnizate după înregistrare. Informațiile dvs. sunt tratate în siguranță și utilizate doar pentru aranjamentele Meet & Greet.", submit:"Trimite înregistrarea" },
+  pt: { firstName:"Nome:*", lastName:"Sobrenome:*", email:"Email:*", phone:"Telefone:", country:"País:", state:"Estado/Região:", date:"Data preferida (opcional)", reason:"Motivo do encontro:", vip:"Selecione nível VIP:*", payment:"Selecione método de pagamento:*", noteBottom:"Por favor, traga um documento de identidade válido ao evento. Os detalhes do pagamento serão fornecidos após o registro. Suas informações são tratadas de forma segura e usadas apenas para arranjos de Meet & Greet.", submit:"Enviar registro" }
+};
+
+function changeLanguage(lang){
+  document.querySelector('label[for="firstName"]').textContent = translations[lang].firstName;
+  document.querySelector('label[for="lastName"]').textContent = translations[lang].lastName;
+  document.querySelector('label[for="email"]').textContent = translations[lang].email;
+  document.querySelector('label[for="phone"]').textContent = translations[lang].phone;
+  document.querySelector('label[for="country"]').textContent = translations[lang].country;
+  document.querySelector('label[for="state"]').textContent = translations[lang].state;
+  document.querySelector('label[for="date"]').textContent = translations[lang].date;
+  document.querySelector('label[for="reason"]').textContent = translations[lang].reason;
+  document.querySelector('label[for="vipHeader"]').textContent = translations[lang].vip;
+  document.querySelector('label[for="paymentHeader"]').textContent = translations[lang].payment;
+  document.querySelector('.note-bottom').innerHTML = translations[lang].noteBottom;
+  document.querySelector('.submit-btn').textContent = translations[lang].submit;
 }
 </script>
 </head>
@@ -173,96 +77,125 @@ function submitForm(e){
 
 <h1>Meet & Greet Registration</h1>
 
+<!-- Language Selector -->
 <div class="language-selector">
-  <label id="langLabel" for="lang">Select Language:</label>
+  <label for="lang">Select Language:</label>
   <select id="lang" onchange="changeLanguage(this.value)">
     <option value="en" selected>English</option>
     <option value="de">German</option>
     <option value="es">Spanish</option>
+    <option value="it">Italian</option>
+    <option value="fr">French</option>
+    <option value="pl">Polish</option>
+    <option value="zh">Chinese</option>
+    <option value="ja">Japanese</option>
+    <option value="ko">Korean</option>
+    <option value="nl">Dutch</option>
+    <option value="ro">Romanian</option>
     <option value="pt">Portuguese (Brazil)</option>
-    <!-- Add other languages here -->
   </select>
 </div>
 
-<form onsubmit="submitForm(event)">
+<form id="meetForm" action="https://formspree.io/f/xwvkywyw" method="POST" onsubmit="return redirectThankYou()">
 
-<div class="flex-row">
-  <div class="flex-item">
-    <label id="lblFirst">First Name</label>
-    <input type="text" name="first" required>
+  <!-- Name Fields -->
+  <div class="row">
+    <div class="field">
+      <label for="firstName">First Name:*</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+    <div class="field">
+      <label for="lastName">Last Name:*</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
   </div>
-  <div class="flex-item">
-    <label id="lblLast">Last Name</label>
-    <input type="text" name="last" required>
+
+  <!-- Email / Phone -->
+  <div class="row">
+    <div class="field">
+      <label for="email">Email Address:*</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="field">
+      <label for="phone">Phone Number:</label>
+      <input type="text" id="phone" name="phone">
+    </div>
   </div>
-</div>
 
-<label id="lblEmail">Email</label>
-<input type="email" name="email" required>
+  <!-- Country / State -->
+  <div class="row">
+    <div class="field">
+      <label for="country">Country:</label>
+      <input type="text" id="country" name="country" placeholder="Type your country">
+    </div>
+    <div class="field">
+      <label for="state">State/Region:</label>
+      <input type="text" id="state" name="state" placeholder="Type your state/region">
+    </div>
+  </div>
 
-<label id="lblPhone">Phone Number</label>
-<input type="tel" name="phone" required>
+  <div class="field">
+    <label for="date">Preferred Meet & Greet Date (optional)</label>
+    <input type="text" id="date" name="date">
+  </div>
 
-<label id="lblCountry">Country</label>
-<input type="text" name="country" required>
+  <div class="field">
+    <label for="reason">Reason for Meeting:</label>
+    <textarea id="reason" name="reason" rows="3"></textarea>
+  </div>
 
-<label id="lblRegion">Region/State</label>
-<input type="text" name="region" required>
+  <!-- VIP Tickets -->
+  <label id="vipHeader" for="vip">Select VIP Ticket Level:*</label>
+  <div class="vip-options vip">
+    <div class="card" onclick="selectCard('vip', this)">
+      <input type="radio" name="vip" value="Diamond" required>
+      <img src="diamond.png" alt="Diamond">
+      <strong>Diamond</strong>
+      <div>$2000</div>
+    </div>
+    <div class="card" onclick="selectCard('vip', this)">
+      <input type="radio" name="vip" value="Platinum" required>
+      <img src="platinum.png" alt="Platinum">
+      <strong>Platinum</strong>
+      <div>$1500</div>
+    </div>
+    <div class="card" onclick="selectCard('vip', this)">
+      <input type="radio" name="vip" value="Gold" required>
+      <img src="gold.png" alt="Gold">
+      <strong>Gold</strong>
+      <div>$1000</div>
+    </div>
+  </div>
 
-<label id="lblReason">Reason for Meeting</label>
-<textarea name="reason" rows="3" required></textarea>
+  <!-- Payment Methods -->
+  <label id="paymentHeader" for="payment">Select Payment Method:*</label>
+  <div class="payment-options payment">
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="PayPal" required> PayPal
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Cash App" required> Cash App
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Wire Transfer" required> Wire Transfer
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Cryptocurrency" required> Cryptocurrency
+    </label>
+    <label class="card" onclick="selectCard('payment', this)">
+      <input type="radio" name="payment" value="Other" required> Other
+    </label>
+  </div>
 
-<label id="lblDate">Preferred Date</label>
-<input type="text" name="date" placeholder="MM/DD/YYYY" required>
+  <p class="note">After submitting this registration, you will be contacted with payment instructions based on your selected method.</p>
 
-<!-- VIP Tickets -->
-<p id="vipTitle">Select VIP Tickets</p>
-<div class="vip-option">
-  <input type="radio" name="vip" value="diamond" required>
-  <img src="diamond.png" alt="Diamond">
-  <span id="diamondLbl">Diamond - $2000</span>
-</div>
-<div class="vip-option">
-  <input type="radio" name="vip" value="platinum">
-  <img src="platinum.png" alt="Platinum">
-  <span id="platinumLbl">Platinum - $1500</span>
-</div>
-<div class="vip-option">
-  <input type="radio" name="vip" value="gold">
-  <img src="gold.png" alt="Gold">
-  <span id="goldLbl">Gold - $1000</span>
-</div>
+  <button type="submit" class="submit-btn">Submit Registration</button>
 
-<!-- Payment Methods -->
-<p id="paymentTitle">Select Payment Method</p>
-<div class="payment-option">
-  <input type="radio" name="payment" value="paypal" required>
-  <span id="paypalLbl">PayPal</span>
-</div>
-<div class="payment-option">
-  <input type="radio" name="payment" value="cashapp">
-  <span id="cashappLbl">Cash App</span>
-</div>
-<div class="payment-option">
-  <input type="radio" name="payment" value="wire">
-  <span id="wireLbl">Wire Transfer</span>
-</div>
-<div class="payment-option">
-  <input type="radio" name="payment" value="crypto">
-  <span id="cryptoLbl">Cryptocurrency</span>
-</div>
-<div class="payment-option">
-  <input type="radio" name="payment" value="other">
-  <span id="otherLbl">Other</span>
-</div>
-
-<span class="note" id="noteTitle">NOTE:</span>
-<p class="note-text" id="note1">Please bring a valid ID to the event.</p>
-<p class="note-text" id="note2">Payment details will be provided after registration.</p>
-<p class="note-text" id="note3">Your information is handled securely and used only for meet & greet arrangements.</p>
-
-<input type="submit" id="submitBtn" class="submit-btn" value="Submit Registration">
-
+  <p class="note-bottom">
+    <span class="note-red">NOTE:</span> Please bring a valid ID to the event. Payment details will be provided after registration.<br><br>
+    Your information is handled securely and used only for meet & greet arrangements.
+  </p>
 </form>
+
 </body>
 </html>
