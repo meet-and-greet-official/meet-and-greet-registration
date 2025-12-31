@@ -22,7 +22,7 @@ h3 {
     margin-bottom: 20px;
 }
 .language-selector {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 </style>
 <script>
@@ -32,73 +32,85 @@ const translations = {
     line1: "Thank you! We’ve received your Meet & Greet registration details.",
     line2: "Your registration has been submitted successfully.",
     payment: "Please proceed to make your payment.",
-    line3: "See you at the event! 🎉"
+    line3: "See you at the event! 🎉",
+    selectLang: "Select Language:"
   },
   de: {
     line1: "Danke! Wir haben Ihre Meet & Greet-Registrierungsdetails erhalten.",
     line2: "Ihre Registrierung wurde erfolgreich übermittelt.",
     payment: "Bitte fahren Sie mit der Zahlung fort.",
-    line3: "Wir sehen uns bei der Veranstaltung! 🎉"
+    line3: "Wir sehen uns bei der Veranstaltung! 🎉",
+    selectLang: "Sprache auswählen:"
   },
   es: {
     line1: "¡Gracias! Hemos recibido los detalles de su registro para Meet & Greet.",
     line2: "Su registro se ha enviado con éxito.",
     payment: "Por favor, proceda a realizar su pago.",
-    line3: "¡Nos vemos en el evento! 🎉"
+    line3: "¡Nos vemos en el evento! 🎉",
+    selectLang: "Seleccionar idioma:"
   },
   pt: {
     line1: "Obrigado! Recebemos os detalhes da sua inscrição no Meet & Greet.",
     line2: "Sua inscrição foi enviada com sucesso.",
     payment: "Por favor, prossiga para efetuar o pagamento.",
-    line3: "Nos vemos no evento! 🎉"
+    line3: "Nos vemos no evento! 🎉",
+    selectLang: "Selecionar idioma:"
   },
   fr: {
     line1: "Merci ! Nous avons reçu les détails de votre inscription au Meet & Greet.",
     line2: "Votre inscription a été soumise avec succès.",
     payment: "Veuillez procéder au paiement.",
-    line3: "À bientôt à l'événement ! 🎉"
+    line3: "À bientôt à l'événement ! 🎉",
+    selectLang: "Choisir la langue:"
   },
   it: {
     line1: "Grazie! Abbiamo ricevuto i dettagli della tua registrazione al Meet & Greet.",
     line2: "La tua registrazione è stata inviata con successo.",
     payment: "Si prega di procedere al pagamento.",
-    line3: "Ci vediamo all'evento! 🎉"
+    line3: "Ci vediamo all'evento! 🎉",
+    selectLang: "Seleziona lingua:"
   },
   pl: {
     line1: "Dziękujemy! Otrzymaliśmy szczegóły rejestracji na Meet & Greet.",
     line2: "Twoja rejestracja została pomyślnie przesłana.",
     payment: "Proszę przystąpić do dokonania płatności.",
-    line3: "Do zobaczenia na wydarzeniu! 🎉"
+    line3: "Do zobaczenia na wydarzeniu! 🎉",
+    selectLang: "Wybierz język:"
   },
   zh: {
     line1: "谢谢！我们已收到您的Meet & Greet注册信息。",
     line2: "您的注册已成功提交。",
     payment: "请继续进行付款。",
-    line3: "活动见！🎉"
+    line3: "活动见！🎉",
+    selectLang: "选择语言："
   },
   ja: {
     line1: "ありがとうございます！Meet & Greet の登録情報を受け取りました。",
     line2: "登録が正常に送信されました。",
     payment: "お支払いを続行してください。",
-    line3: "イベントでお会いしましょう！🎉"
+    line3: "イベントでお会いしましょう！🎉",
+    selectLang: "言語を選択："
   },
   ko: {
     line1: "감사합니다! Meet & Greet 등록 정보를 받았습니다.",
     line2: "등록이 성공적으로 제출되었습니다.",
     payment: "결제를 진행해 주세요.",
-    line3: "행사장에서 뵙겠습니다! 🎉"
+    line3: "행사장에서 뵙겠습니다! 🎉",
+    selectLang: "언어 선택:"
   },
   nl: {
     line1: "Dank je! We hebben je Meet & Greet-registratiegegevens ontvangen.",
     line2: "Je registratie is succesvol ingediend.",
     payment: "Ga alstublieft verder met de betaling.",
-    line3: "Tot ziens op het evenement! 🎉"
+    line3: "Tot ziens op het evenement! 🎉",
+    selectLang: "Selecteer taal:"
   },
   ro: {
     line1: "Mulțumim! Am primit detaliile înregistrării tale pentru Meet & Greet.",
     line2: "Înregistrarea ta a fost trimisă cu succes.",
     payment: "Vă rugăm să continuați cu plata.",
-    line3: "Ne vedem la eveniment! 🎉"
+    line3: "Ne vedem la eveniment! 🎉",
+    selectLang: "Selectați limba:"
   }
 };
 
@@ -109,6 +121,7 @@ function setLanguage(lang){
   document.getElementById('line2').textContent = t.line2;
   document.getElementById('payment').textContent = t.payment;
   document.getElementById('line3').textContent = t.line3;
+  document.getElementById('langLabel').textContent = t.selectLang;
 }
 
 // Auto-detect browser language
@@ -126,5 +139,19 @@ window.onload = function(){
 <h3 id="payment" class="payment-instruction">Please proceed to make your payment.</h3>
 <h3 id="line3">See you at the event! 🎉</h3>
 
-</body>
-</html>
+<!-- Language Selector -->
+<div class="language-selector">
+  <label id="langLabel" for="lang">Select Language:</label>
+  <select id="lang" onchange="setLanguage(this.value)">
+    <option value="en">English</option>
+    <option value="de">German</option>
+    <option value="es">Spanish</option>
+    <option value="pt">Portuguese</option>
+    <option value="fr">French</option>
+    <option value="it">Italian</option>
+    <option value="pl">Polish</option>
+    <option value="zh">Chinese</option>
+    <option value="ja">Japanese</option>
+    <option value="ko">Korean</option>
+    <option value="nl">Dutch</option>
+    <option value
