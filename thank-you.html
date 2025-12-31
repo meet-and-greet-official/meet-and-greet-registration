@@ -3,181 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thank You - Meet & Greet Registration</title>
+<title>Thank You</title>
 <style>
-body { font-family: Arial, sans-serif; margin:20px; background:#fff; color:#000; text-align:center; }
-h1 { font-size:28px; font-weight:bold; margin-bottom:20px; color:#000; }
-p { font-size:18px; margin-bottom:15px; line-height:1.5; }
-.note { color:red; font-weight:bold; margin-top:20px; display:block; }
-.note-text { color:#000; font-weight:normal; margin-top:5px; line-height:1.5; }
-.language-selector { margin-bottom:20px; }
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+    background-color: #fff;
+    color: #000;
+}
+h3 {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.payment-instruction {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.language-selector {
+    margin-top: 20px;
+}
 </style>
 <script>
+// Translations
 const translations = {
   en: {
-    msg1:"Thank you! Your Meet & Greet registration has been submitted successfully.",
-    msg2:"Please proceed to make your payment.",
-    msg3:"See you at the event! 🎉",
-    noteTitle:"NOTE:",
-    note1:"Please bring a valid ID to the event.",
-    note2:"Payment details will be provided after registration.",
-    note3:"Your information is handled securely and used only for meet & greet arrangements.",
-    selectLang:"Select Language:"
+    line1: "Thank you! We’ve received your Meet & Greet registration details.",
+    line2: "Your registration has been submitted successfully.",
+    payment: "Please proceed to make your payment.",
+    line3: "See you at the event! 🎉"
   },
   de: {
-    msg1:"Danke! Ihre Meet & Greet-Registrierung wurde erfolgreich übermittelt.",
-    msg2:"Bitte fahren Sie mit der Zahlung fort.",
-    msg3:"Wir sehen uns bei der Veranstaltung! 🎉",
-    noteTitle:"HINWEIS:",
-    note1:"Bitte bringen Sie einen gültigen Ausweis zur Veranstaltung mit.",
-    note2:"Zahlungsdetails werden nach der Registrierung bereitgestellt.",
-    note3:"Ihre Informationen werden sicher verarbeitet und nur für Meet & Greet-Veranstaltungen verwendet.",
-    selectLang:"Sprache auswählen:"
+    line1: "Danke! Wir haben Ihre Meet & Greet-Registrierungsdetails erhalten.",
+    line2: "Ihre Registrierung wurde erfolgreich übermittelt.",
+    payment: "Bitte fahren Sie mit der Zahlung fort.",
+    line3: "Wir sehen uns bei der Veranstaltung! 🎉"
   },
   es: {
-    msg1:"¡Gracias! Su registro de Meet & Greet ha sido enviado con éxito.",
-    msg2:"Por favor, proceda a realizar su pago.",
-    msg3:"¡Nos vemos en el evento! 🎉",
-    noteTitle:"NOTA:",
-    note1:"Por favor, traiga una identificación válida al evento.",
-    note2:"Los detalles de pago se proporcionarán después del registro.",
-    note3:"Su información se maneja de manera segura y solo se utiliza para los arreglos de Meet & Greet.",
-    selectLang:"Seleccionar idioma:"
+    line1: "¡Gracias! Hemos recibido los detalles de su registro para Meet & Greet.",
+    line2: "Su registro se ha enviado con éxito.",
+    payment: "Por favor, proceda a realizar su pago.",
+    line3: "¡Nos vemos en el evento! 🎉"
   },
   pt: {
-    msg1:"Obrigado! Seus detalhes do Meet & Greet foram enviados com sucesso.",
-    msg2:"Por favor, prossiga com o pagamento.",
-    msg3:"Vejo você no evento! 🎉",
-    noteTitle:"NOTA:",
-    note1:"Por favor, traga um documento de identificação válido para o evento.",
-    note2:"Os detalhes de pagamento serão fornecidos após o registro.",
-    note3:"Suas informações são tratadas com segurança e usadas apenas para os arranjos do Meet & Greet.",
-    selectLang:"Selecionar idioma:"
+    line1: "Obrigado! Recebemos os detalhes da sua inscrição no Meet & Greet.",
+    line2: "Sua inscrição foi enviada com sucesso.",
+    payment: "Por favor, prossiga para efetuar o pagamento.",
+    line3: "Nos vemos no evento! 🎉"
   },
   fr: {
-    msg1:"Merci ! Votre inscription au Meet & Greet a été soumise avec succès.",
-    msg2:"Veuillez procéder au paiement.",
-    msg3:"À bientôt à l'événement ! 🎉",
-    noteTitle:"NOTE :",
-    note1:"Veuillez apporter une pièce d'identité valide à l'événement.",
-    note2:"Les détails de paiement seront fournis après l'inscription.",
-    note3:"Vos informations sont traitées en toute sécurité et utilisées uniquement pour les arrangements du Meet & Greet.",
-    selectLang:"Choisir la langue :"
+    line1: "Merci ! Nous avons reçu les détails de votre inscription au Meet & Greet.",
+    line2: "Votre inscription a été soumise avec succès.",
+    payment: "Veuillez procéder au paiement.",
+    line3: "À bientôt à l'événement ! 🎉"
   },
   it: {
-    msg1:"Grazie! La tua registrazione al Meet & Greet è stata inviata con successo.",
-    msg2:"Procedi al pagamento.",
-    msg3:"Ci vediamo all'evento! 🎉",
-    noteTitle:"NOTA:",
-    note1:"Si prega di portare un documento d'identità valido all'evento.",
-    note2:"I dettagli di pagamento saranno forniti dopo la registrazione.",
-    note3:"Le tue informazioni sono trattate in modo sicuro e utilizzate solo per gli accordi del Meet & Greet.",
-    selectLang:"Seleziona lingua:"
+    line1: "Grazie! Abbiamo ricevuto i dettagli della tua registrazione al Meet & Greet.",
+    line2: "La tua registrazione è stata inviata con successo.",
+    payment: "Si prega di procedere al pagamento.",
+    line3: "Ci vediamo all'evento! 🎉"
   },
   pl: {
-    msg1:"Dziękujemy! Twoja rejestracja Meet & Greet została pomyślnie przesłana.",
-    msg2:"Proszę przystąpić do płatności.",
-    msg3:"Do zobaczenia na wydarzeniu! 🎉",
-    noteTitle:"UWAGA:",
-    note1:"Proszę przynieść ważny dowód tożsamości na wydarzenie.",
-    note2:"Szczegóły płatności zostaną udostępnione po rejestracji.",
-    note3:"Twoje informacje są przetwarzane bezpiecznie i wykorzystywane wyłącznie do celów Meet & Greet.",
-    selectLang:"Wybierz język:"
+    line1: "Dziękujemy! Otrzymaliśmy szczegóły rejestracji na Meet & Greet.",
+    line2: "Twoja rejestracja została pomyślnie przesłana.",
+    payment: "Proszę przystąpić do dokonania płatności.",
+    line3: "Do zobaczenia na wydarzeniu! 🎉"
   },
   zh: {
-    msg1:"感谢！您的 Meet & Greet 注册已成功提交。",
-    msg2:"请继续进行付款。",
-    msg3:"活动见！🎉",
-    noteTitle:"注意:",
-    note1:"请携带有效身份证件参加活动。",
-    note2:"付款详情将在注册后提供。",
-    note3:"您的信息将安全处理，仅用于 Meet & Greet 安排。",
-    selectLang:"选择语言:"
+    line1: "谢谢！我们已收到您的Meet & Greet注册信息。",
+    line2: "您的注册已成功提交。",
+    payment: "请继续进行付款。",
+    line3: "活动见！🎉"
   },
   ja: {
-    msg1:"ありがとうございます！Meet & Greet の登録が正常に送信されました。",
-    msg2:"お支払いを続行してください。",
-    msg3:"イベントでお会いしましょう！ 🎉",
-    noteTitle:"注意：",
-    note1:"イベントには有効な身分証明書をご持参ください。",
-    note2:"支払いの詳細は登録後に提供されます。",
-    note3:"あなたの情報は安全に処理され、Meet & Greet の手配にのみ使用されます。",
-    selectLang:"言語を選択:"
+    line1: "ありがとうございます！Meet & Greet の登録情報を受け取りました。",
+    line2: "登録が正常に送信されました。",
+    payment: "お支払いを続行してください。",
+    line3: "イベントでお会いしましょう！🎉"
   },
   ko: {
-    msg1:"감사합니다! Meet & Greet 등록이 성공적으로 제출되었습니다.",
-    msg2:"결제를 진행해주세요.",
-    msg3:"이벤트에서 뵙겠습니다! 🎉",
-    noteTitle:"참고:",
-    note1:"이벤트에 유효한 신분증을 지참해 주세요.",
-    note2:"결제 세부 사항은 등록 후 제공됩니다.",
-    note3:"귀하의 정보는 안전하게 처리되며 Meet & Greet 일정에만 사용됩니다.",
-    selectLang:"언어 선택:"
+    line1: "감사합니다! Meet & Greet 등록 정보를 받았습니다.",
+    line2: "등록이 성공적으로 제출되었습니다.",
+    payment: "결제를 진행해 주세요.",
+    line3: "행사장에서 뵙겠습니다! 🎉"
   },
   nl: {
-    msg1:"Bedankt! Uw Meet & Greet-registratie is succesvol verzonden.",
-    msg2:"Ga verder met uw betaling.",
-    msg3:"Tot ziens op het evenement! 🎉",
-    noteTitle:"OPMERKING:",
-    note1:"Breng een geldig identiteitsbewijs mee naar het evenement.",
-    note2:"Betalingsgegevens worden na registratie verstrekt.",
-    note3:"Uw gegevens worden veilig verwerkt en alleen gebruikt voor Meet & Greet-regelingen.",
-    selectLang:"Selecteer taal:"
+    line1: "Dank je! We hebben je Meet & Greet-registratiegegevens ontvangen.",
+    line2: "Je registratie is succesvol ingediend.",
+    payment: "Ga alstublieft verder met de betaling.",
+    line3: "Tot ziens op het evenement! 🎉"
   },
   ro: {
-    msg1:"Mulțumim! Înregistrarea Meet & Greet a fost trimisă cu succes.",
-    msg2:"Vă rugăm să efectuați plata.",
-    msg3:"Ne vedem la eveniment! 🎉",
-    noteTitle:"NOTĂ:",
-    note1:"Vă rugăm să aduceți un act de identitate valabil la eveniment.",
-    note2:"Detaliile plății vor fi furnizate după înregistrare.",
-    note3:"Informațiile dvs. sunt gestionate în siguranță și utilizate numai pentru aranjamentele Meet & Greet.",
-    selectLang:"Selectați limba:"
+    line1: "Mulțumim! Am primit detaliile înregistrării tale pentru Meet & Greet.",
+    line2: "Înregistrarea ta a fost trimisă cu succes.",
+    payment: "Vă rugăm să continuați cu plata.",
+    line3: "Ne vedem la eveniment! 🎉"
   }
 };
 
-function changeLanguage(lang){
-  document.getElementById('msg1').textContent = translations[lang].msg1;
-  document.getElementById('msg2').textContent = translations[lang].msg2;
-  document.getElementById('msg3').textContent = translations[lang].msg3;
-  document.getElementById('noteTitle').textContent = translations[lang].noteTitle;
-  document.getElementById('note1').textContent = translations[lang].note1;
-  document.getElementById('note2').textContent = translations[lang].note2;
-  document.getElementById('note3').textContent = translations[lang].note3;
-  document.getElementById('langLabel').textContent = translations[lang].selectLang;
+// Set text based on language
+function setLanguage(lang){
+  const t = translations[lang] || translations['en'];
+  document.getElementById('line1').textContent = t.line1;
+  document.getElementById('line2').textContent = t.line2;
+  document.getElementById('payment').textContent = t.payment;
+  document.getElementById('line3').textContent = t.line3;
 }
+
+// Auto-detect browser language
+window.onload = function(){
+  let lang = navigator.language.slice(0,2);
+  if(!translations[lang]) lang = 'en';
+  setLanguage(lang);
+};
 </script>
 </head>
 <body>
 
-<h1>Meet & Greet Registration</h1>
-
-<div class="language-selector">
-  <label id="langLabel" for="lang">Select Language:</label>
-  <select id="lang" onchange="changeLanguage(this.value)">
-    <option value="en" selected>English</option>
-    <option value="de">German</option>
-    <option value="es">Spanish</option>
-    <option value="pt">Portuguese (Brazil)</option>
-    <option value="fr">French</option>
-    <option value="it">Italian</option>
-    <option value="pl">Polish</option>
-    <option value="zh">Chinese</option>
-    <option value="ja">Japanese</option>
-    <option value="ko">Korean</option>
-    <option value="nl">Dutch</option>
-    <option value="ro">Romanian</option>
-  </select>
-</div>
-
-<p id="msg1">Thank you! Your Meet & Greet registration has been submitted successfully.</p>
-<p id="msg2">Please proceed to make your payment.</p>
-<p id="msg3">See you at the event! 🎉</p>
-
-<span class="note" id="noteTitle">NOTE:</span>
-<p class="note-text" id="note1">Please bring a valid ID to the event.</p>
-<p class="note-text" id="note2">Payment details will be provided after registration.</p>
-<p class="note-text" id="note3">Your information is handled securely and used only for meet & greet arrangements.</p>
+<h3 id="line1">Thank you! We’ve received your Meet & Greet registration details.</h3>
+<h3 id="line2">Your registration has been submitted successfully.</h3>
+<h3 id="payment" class="payment-instruction">Please proceed to make your payment.</h3>
+<h3 id="line3">See you at the event! 🎉</h3>
 
 </body>
 </html>
